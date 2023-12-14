@@ -2,7 +2,7 @@
 ! ==============================================================================
 ! hipfort: FORTRAN Interfaces for GPU kernels
 ! ==============================================================================
-! Copyright (c) 2020-2022 Advanced Micro Devices, Inc. All rights reserved.
+! Copyright (c) 2021 Advanced Micro Devices, Inc. All rights reserved.
 ! [MITx11 License]
 ! 
 ! Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -36,18 +36,19 @@ module hipfort_enums
   end enum
 
   enum, bind(c)
-    enumerator :: hipMemoryTypeHost
-    enumerator :: hipMemoryTypeDevice
-    enumerator :: hipMemoryTypeArray
-    enumerator :: hipMemoryTypeUnified
+    enumerator :: hipMemoryTypeHost = 0
+    enumerator :: hipMemoryTypeDevice = 1
+    enumerator :: hipMemoryTypeArray = 2
+    enumerator :: hipMemoryTypeUnified = 3
+    enumerator :: hipMemoryTypeManaged = 4
   end enum
- 
+
   enum, bind(c)
-    enumerator :: hipSuccess = 0 !> Successful completion.
-    enumerator :: hipErrorInvalidValue = 1 !> One or more of the parameters passed to the API call is NULL or not in an acceptable range.
-    enumerator :: hipErrorOutOfMemory = 2 !> Out of memory range.
-    enumerator :: hipErrorMemoryAllocation = 2 !> Memory allocation error.
-    enumerator :: hipErrorNotInitialized = 3 !> Invalid not initialized
+    enumerator :: hipSuccess = 0
+    enumerator :: hipErrorInvalidValue = 1
+    enumerator :: hipErrorOutOfMemory = 2
+    enumerator :: hipErrorMemoryAllocation = 2
+    enumerator :: hipErrorNotInitialized = 3
     enumerator :: hipErrorInitializationError = 3
     enumerator :: hipErrorDeinitialized = 4
     enumerator :: hipErrorProfilerDisabled = 5
@@ -124,117 +125,6 @@ module hipfort_enums
   end enum
 
   enum, bind(c)
-    enumerator :: hipDeviceAttributeCudaCompatibleBegin = 0
-    enumerator :: hipDeviceAttributeEccEnabled = hipDeviceAttributeCudaCompatibleBegin
-    enumerator :: hipDeviceAttributeAccessPolicyMaxWindowSize
-    enumerator :: hipDeviceAttributeAsyncEngineCount
-    enumerator :: hipDeviceAttributeCanMapHostMemory
-    enumerator :: hipDeviceAttributeCanUseHostPointerForRegisteredMem
-    enumerator :: hipDeviceAttributeClockRate
-    enumerator :: hipDeviceAttributeComputeMode
-    enumerator :: hipDeviceAttributeComputePreemptionSupported
-    enumerator :: hipDeviceAttributeConcurrentKernels
-    enumerator :: hipDeviceAttributeConcurrentManagedAccess
-    enumerator :: hipDeviceAttributeCooperativeLaunch
-    enumerator :: hipDeviceAttributeCooperativeMultiDeviceLaunch
-    enumerator :: hipDeviceAttributeDeviceOverlap
-    enumerator :: hipDeviceAttributeDirectManagedMemAccessFromHost
-    enumerator :: hipDeviceAttributeGlobalL1CacheSupported
-    enumerator :: hipDeviceAttributeHostNativeAtomicSupported
-    enumerator :: hipDeviceAttributeIntegrated
-    enumerator :: hipDeviceAttributeIsMultiGpuBoard
-    enumerator :: hipDeviceAttributeKernelExecTimeout
-    enumerator :: hipDeviceAttributeL2CacheSize
-    enumerator :: hipDeviceAttributeLocalL1CacheSupported
-    enumerator :: hipDeviceAttributeLuid
-    enumerator :: hipDeviceAttributeLuidDeviceNodeMask
-    enumerator :: hipDeviceAttributeComputeCapabilityMajor
-    enumerator :: hipDeviceAttributeManagedMemory
-    enumerator :: hipDeviceAttributeMaxBlocksPerMultiProcessor
-    enumerator :: hipDeviceAttributeMaxBlockDimX
-    enumerator :: hipDeviceAttributeMaxBlockDimY
-    enumerator :: hipDeviceAttributeMaxBlockDimZ
-    enumerator :: hipDeviceAttributeMaxGridDimX
-    enumerator :: hipDeviceAttributeMaxGridDimY
-    enumerator :: hipDeviceAttributeMaxGridDimZ
-    enumerator :: hipDeviceAttributeMaxSurface1D
-    enumerator :: hipDeviceAttributeMaxSurface1DLayered
-    enumerator :: hipDeviceAttributeMaxSurface2D
-    enumerator :: hipDeviceAttributeMaxSurface2DLayered
-    enumerator :: hipDeviceAttributeMaxSurface3D
-    enumerator :: hipDeviceAttributeMaxSurfaceCubemap
-    enumerator :: hipDeviceAttributeMaxSurfaceCubemapLayered
-    enumerator :: hipDeviceAttributeMaxTexture1DWidth
-    enumerator :: hipDeviceAttributeMaxTexture1DLayered
-    enumerator :: hipDeviceAttributeMaxTexture1DLinear
-    enumerator :: hipDeviceAttributeMaxTexture1DMipmap
-    enumerator :: hipDeviceAttributeMaxTexture2DWidth
-    enumerator :: hipDeviceAttributeMaxTexture2DHeight
-    enumerator :: hipDeviceAttributeMaxTexture2DGather
-    enumerator :: hipDeviceAttributeMaxTexture2DLayered
-    enumerator :: hipDeviceAttributeMaxTexture2DLinear
-    enumerator :: hipDeviceAttributeMaxTexture2DMipmap
-    enumerator :: hipDeviceAttributeMaxTexture3DWidth
-    enumerator :: hipDeviceAttributeMaxTexture3DHeight
-    enumerator :: hipDeviceAttributeMaxTexture3DDepth
-    enumerator :: hipDeviceAttributeMaxTexture3DAlt
-    enumerator :: hipDeviceAttributeMaxTextureCubemap
-    enumerator :: hipDeviceAttributeMaxTextureCubemapLayered
-    enumerator :: hipDeviceAttributeMaxThreadsDim
-    enumerator :: hipDeviceAttributeMaxThreadsPerBlock
-    enumerator :: hipDeviceAttributeMaxThreadsPerMultiProcessor
-    enumerator :: hipDeviceAttributeMaxPitch
-    enumerator :: hipDeviceAttributeMemoryBusWidth
-    enumerator :: hipDeviceAttributeMemoryClockRate
-    enumerator :: hipDeviceAttributeComputeCapabilityMinor
-    enumerator :: hipDeviceAttributeMultiGpuBoardGroupID
-    enumerator :: hipDeviceAttributeMultiprocessorCount
-    enumerator :: hipDeviceAttributeName
-    enumerator :: hipDeviceAttributePageableMemoryAccess
-    enumerator :: hipDeviceAttributePageableMemoryAccessUsesHostPageTables
-    enumerator :: hipDeviceAttributePciBusId
-    enumerator :: hipDeviceAttributePciDeviceId
-    enumerator :: hipDeviceAttributePciDomainID
-    enumerator :: hipDeviceAttributePersistingL2CacheMaxSize
-    enumerator :: hipDeviceAttributeMaxRegistersPerBlock
-    enumerator :: hipDeviceAttributeMaxRegistersPerMultiprocessor
-    enumerator :: hipDeviceAttributeReservedSharedMemPerBlock
-    enumerator :: hipDeviceAttributeMaxSharedMemoryPerBlock
-    enumerator :: hipDeviceAttributeSharedMemPerBlockOptin
-    enumerator :: hipDeviceAttributeSharedMemPerMultiprocessor
-    enumerator :: hipDeviceAttributeSingleToDoublePrecisionPerfRatio
-    enumerator :: hipDeviceAttributeStreamPrioritiesSupported
-    enumerator :: hipDeviceAttributeSurfaceAlignment
-    enumerator :: hipDeviceAttributeTccDriver
-    enumerator :: hipDeviceAttributeTextureAlignment
-    enumerator :: hipDeviceAttributeTexturePitchAlignment
-    enumerator :: hipDeviceAttributeTotalConstantMemory
-    enumerator :: hipDeviceAttributeTotalGlobalMem
-    enumerator :: hipDeviceAttributeUnifiedAddressing
-    enumerator :: hipDeviceAttributeUuid
-    enumerator :: hipDeviceAttributeWarpSize
-    enumerator :: hipDeviceAttributeCudaCompatibleEnd = 9999
-    enumerator :: hipDeviceAttributeAmdSpecificBegin = 10000
-    enumerator :: hipDeviceAttributeClockInstructionRate = hipDeviceAttributeAmdSpecificBegin
-    enumerator :: hipDeviceAttributeArch
-    enumerator :: hipDeviceAttributeMaxSharedMemoryPerMultiprocessor
-    enumerator :: hipDeviceAttributeGcnArch
-    enumerator :: hipDeviceAttributeGcnArchName
-    enumerator :: hipDeviceAttributeHdpMemFlushCntl
-    enumerator :: hipDeviceAttributeHdpRegFlushCntl
-    enumerator :: hipDeviceAttributeCooperativeMultiDeviceUnmatchedFunc
-    enumerator :: hipDeviceAttributeCooperativeMultiDeviceUnmatchedGridDim
-    enumerator :: hipDeviceAttributeCooperativeMultiDeviceUnmatchedBlockDim
-    enumerator :: hipDeviceAttributeCooperativeMultiDeviceUnmatchedSharedMem
-    enumerator :: hipDeviceAttributeIsLargeBar
-    enumerator :: hipDeviceAttributeAsicRevision
-    enumerator :: hipDeviceAttributeCanUseStreamWaitValue
-    enumerator :: hipDeviceAttributeImageSupport
-    enumerator :: hipDeviceAttributeAmdSpecificEnd = 19999
-    enumerator :: hipDeviceAttributeVendorSpecificBegin = 20000
-  end enum
-
-  enum, bind(c)
     enumerator :: hipComputeModeDefault = 0
     enumerator :: hipComputeModeExclusive = 1
     enumerator :: hipComputeModeProhibited = 2
@@ -249,8 +139,10 @@ module hipfort_enums
   end enum
 
   enum, bind(c)
+    enumerator :: hipLimitStackSize = 0
     enumerator :: hipLimitPrintfFifoSize = 1
     enumerator :: hipLimitMallocHeapSize = 2
+    enumerator :: hipLimitRange
   end enum
 
   enum, bind(c)
@@ -276,6 +168,41 @@ module hipfort_enums
     enumerator :: hipMemRangeAttributeAccessedBy = 3
     enumerator :: hipMemRangeAttributeLastPrefetchLocation = 4
     enumerator :: hipMemRangeAttributeCoherencyMode = 100
+  end enum
+
+  enum, bind(c)
+    enumerator :: hipMemPoolReuseFollowEventDependencies = 1
+    enumerator :: hipMemPoolReuseAllowOpportunistic = 2
+    enumerator :: hipMemPoolReuseAllowInternalDependencies = 3
+    enumerator :: hipMemPoolAttrReleaseThreshold = 4
+    enumerator :: hipMemPoolAttrReservedMemCurrent = 5
+    enumerator :: hipMemPoolAttrReservedMemHigh = 6
+    enumerator :: hipMemPoolAttrUsedMemCurrent = 7
+    enumerator :: hipMemPoolAttrUsedMemHigh = 8
+  end enum
+
+  enum, bind(c)
+    enumerator :: hipMemLocationTypeInvalid = 0
+    enumerator :: hipMemLocationTypeDevice = 1
+  end enum
+
+  enum, bind(c)
+    enumerator :: hipMemAccessFlagsProtNone = 0
+    enumerator :: hipMemAccessFlagsProtRead = 1
+    enumerator :: hipMemAccessFlagsProtReadWrite = 3
+  end enum
+
+  enum, bind(c)
+    enumerator :: hipMemAllocationTypeInvalid = 0
+    enumerator :: hipMemAllocationTypePinned = 1
+    enumerator :: hipMemAllocationTypeMax = 2147483647
+  end enum
+
+  enum, bind(c)
+    enumerator :: hipMemHandleTypeNone = 0
+    enumerator :: hipMemHandleTypePosixFileDescriptor = 1
+    enumerator :: hipMemHandleTypeWin32 = 2
+    enumerator :: hipMemHandleTypeWin32Kmt = 4
   end enum
 
   enum, bind(c)
@@ -326,6 +253,7 @@ module hipfort_enums
     enumerator :: hipExternalMemoryHandleTypeD3D12Resource = 5
     enumerator :: hipExternalMemoryHandleTypeD3D11Resource = 6
     enumerator :: hipExternalMemoryHandleTypeD3D11ResourceKmt = 7
+    enumerator :: hipExternalMemoryHandleTypeNvSciBuf = 8
   end enum
 
   enum, bind(c)
@@ -333,12 +261,12 @@ module hipfort_enums
     enumerator :: hipExternalSemaphoreHandleTypeOpaqueWin32 = 2
     enumerator :: hipExternalSemaphoreHandleTypeOpaqueWin32Kmt = 3
     enumerator :: hipExternalSemaphoreHandleTypeD3D12Fence = 4
-  end enum
-
-  enum, bind(c)
-    enumerator :: hipGLDeviceListAll = 1
-    enumerator :: hipGLDeviceListCurrentFrame = 2
-    enumerator :: hipGLDeviceListNextFrame = 3
+    enumerator :: hipExternalSemaphoreHandleTypeD3D11Fence = 5
+    enumerator :: hipExternalSemaphoreHandleTypeNvSciSync = 6
+    enumerator :: hipExternalSemaphoreHandleTypeKeyedMutex = 7
+    enumerator :: hipExternalSemaphoreHandleTypeKeyedMutexKmt = 8
+    enumerator :: hipExternalSemaphoreHandleTypeTimelineSemaphoreFd = 9
+    enumerator :: hipExternalSemaphoreHandleTypeTimelineSemaphoreWin32 = 10
   end enum
 
   enum, bind(c)
@@ -350,18 +278,32 @@ module hipfort_enums
   end enum
 
   enum, bind(c)
-    enumerator :: hipGraphNodeTypeKernel = 1
-    enumerator :: hipGraphNodeTypeMemcpy = 2
-    enumerator :: hipGraphNodeTypeMemset = 3
-    enumerator :: hipGraphNodeTypeHost = 4
-    enumerator :: hipGraphNodeTypeGraph = 5
-    enumerator :: hipGraphNodeTypeEmpty = 6
-    enumerator :: hipGraphNodeTypeWaitEvent = 7
-    enumerator :: hipGraphNodeTypeEventRecord = 8
-    enumerator :: hipGraphNodeTypeMemcpy1D = 9
-    enumerator :: hipGraphNodeTypeMemcpyFromSymbol = 10
-    enumerator :: hipGraphNodeTypeMemcpyToSymbol = 11
+    enumerator :: hipGraphNodeTypeKernel = 0
+    enumerator :: hipGraphNodeTypeMemcpy = 1
+    enumerator :: hipGraphNodeTypeMemset = 2
+    enumerator :: hipGraphNodeTypeHost = 3
+    enumerator :: hipGraphNodeTypeGraph = 4
+    enumerator :: hipGraphNodeTypeEmpty = 5
+    enumerator :: hipGraphNodeTypeWaitEvent = 6
+    enumerator :: hipGraphNodeTypeEventRecord = 7
+    enumerator :: hipGraphNodeTypeExtSemaphoreSignal = 8
+    enumerator :: hipGraphNodeTypeExtSemaphoreWait = 9
+    enumerator :: hipGraphNodeTypeMemAlloc = 10
+    enumerator :: hipGraphNodeTypeMemFree = 11
+    enumerator :: hipGraphNodeTypeMemcpyFromSymbol = 12
+    enumerator :: hipGraphNodeTypeMemcpyToSymbol = 13
     enumerator :: hipGraphNodeTypeCount
+  end enum
+
+  enum, bind(c)
+    enumerator :: hipKernelNodeAttributeAccessPolicyWindow = 1
+    enumerator :: hipKernelNodeAttributeCooperative = 2
+  end enum
+
+  enum, bind(c)
+    enumerator :: hipAccessPropertyNormal = 0
+    enumerator :: hipAccessPropertyStreaming = 1
+    enumerator :: hipAccessPropertyPersisting = 2
   end enum
 
   enum, bind(c)
@@ -393,6 +335,47 @@ module hipfort_enums
   end enum
 
   enum, bind(c)
+    enumerator :: hipGraphMemAttrUsedMemCurrent = 0
+    enumerator :: hipGraphMemAttrUsedMemHigh
+    enumerator :: hipGraphMemAttrReservedMemCurrent
+    enumerator :: hipGraphMemAttrReservedMemHigh
+  end enum
+
+  enum, bind(c)
+    enumerator :: hipUserObjectNoDestructorSync = 1
+  end enum
+
+  enum, bind(c)
+    enumerator :: hipGraphUserObjectMove = 1
+  end enum
+
+  enum, bind(c)
+    enumerator :: hipGraphInstantiateFlagAutoFreeOnLaunch = 1
+    enumerator :: hipGraphInstantiateFlagUpload = 2
+    enumerator :: hipGraphInstantiateFlagDeviceLaunch = 4
+    enumerator :: hipGraphInstantiateFlagUseNodePriority = 8
+  end enum
+
+  enum, bind(c)
+    enumerator :: hipMemAllocationGranularityMinimum = 0
+    enumerator :: hipMemAllocationGranularityRecommended = 1
+  end enum
+
+  enum, bind(c)
+    enumerator :: hipMemHandleTypeGeneric = 0
+  end enum
+
+  enum, bind(c)
+    enumerator :: hipMemOperationTypeMap = 1
+    enumerator :: hipMemOperationTypeUnmap = 2
+  end enum
+
+  enum, bind(c)
+    enumerator :: hipArraySparseSubresourceTypeSparseLevel = 0
+    enumerator :: hipArraySparseSubresourceTypeMiptail = 1
+  end enum
+
+  enum, bind(c)
     enumerator :: hipChannelFormatKindSigned = 0
     enumerator :: hipChannelFormatKindUnsigned = 1
     enumerator :: hipChannelFormatKindFloat = 2
@@ -415,13 +398,6 @@ module hipfort_enums
     enumerator :: hipResourceTypeMipmappedArray = 1
     enumerator :: hipResourceTypeLinear = 2
     enumerator :: hipResourceTypePitch2D = 3
-  end enum
-
-  enum, bind(c)
-    enumerator :: HIP_RESOURCE_TYPE_ARRAY = 0
-    enumerator :: HIP_RESOURCE_TYPE_MIPMAPPED_ARRAY = 1
-    enumerator :: HIP_RESOURCE_TYPE_LINEAR = 2
-    enumerator :: HIP_RESOURCE_TYPE_PITCH2D = 3
   end enum
 
   enum, bind(c)
@@ -572,12 +548,34 @@ module hipfort_enums
   end enum
 
   enum, bind(c)
-    enumerator :: HIP_R_16F = 2
     enumerator :: HIP_R_32F = 0
     enumerator :: HIP_R_64F = 1
-    enumerator :: HIP_C_16F = 6
+    enumerator :: HIP_R_16F = 2
+    enumerator :: HIP_R_8I = 3
     enumerator :: HIP_C_32F = 4
     enumerator :: HIP_C_64F = 5
+    enumerator :: HIP_C_16F = 6
+    enumerator :: HIP_C_8I = 7
+    enumerator :: HIP_R_8U = 8
+    enumerator :: HIP_C_8U = 9
+    enumerator :: HIP_R_32I = 10
+    enumerator :: HIP_C_32I = 11
+    enumerator :: HIP_R_32U = 12
+    enumerator :: HIP_C_32U = 13
+    enumerator :: HIP_R_16BF = 14
+    enumerator :: HIP_C_16BF = 15
+    enumerator :: HIP_R_4I = 16
+    enumerator :: HIP_C_4I = 17
+    enumerator :: HIP_R_4U = 18
+    enumerator :: HIP_C_4U = 19
+    enumerator :: HIP_R_16I = 20
+    enumerator :: HIP_C_16I = 21
+    enumerator :: HIP_R_16U = 22
+    enumerator :: HIP_C_16U = 23
+    enumerator :: HIP_R_64I = 24
+    enumerator :: HIP_C_64I = 25
+    enumerator :: HIP_R_64U = 26
+    enumerator :: HIP_C_64U = 27
   end enum
 
   enum, bind(c)

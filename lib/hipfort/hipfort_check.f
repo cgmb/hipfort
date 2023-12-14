@@ -1,4 +1,6 @@
 module hipfort_check
+   use hipfort_enums
+   use iso_c_binding
 
 contains
 
@@ -345,6 +347,7 @@ contains
        write(*,*) "HIPBLAS ERROR: Error code = ", hipblasError_t
        call exit(hipblasError_t)
     end if
+
   end subroutine hipblasCheck
 
   subroutine hipfftCheck(hipfft_status)
@@ -358,6 +361,7 @@ contains
        write(*,*) "HIPFFT ERROR: Error code = ", hipfft_status
        call exit(hipfft_status)
     end if
+
   end subroutine hipfftCheck
   
   subroutine hipsparseCheck(hipsparseError_t)
@@ -371,20 +375,8 @@ contains
        write(*,*) "HIPSPARSE ERROR: Error code = ", hipsparseError_t
        call exit(hipsparseError_t)
     end if
+
   end subroutine hipsparseCheck
-  
-  subroutine hipsolverCheck(hipsolverError_t)
-    use hipfort_hipsolver_enums
-
-    implicit none
-
-    integer(kind(HIPSOLVER_STATUS_SUCCESS)) :: hipsolverError_t
-
-    if(hipsolverError_t /= HIPSOLVER_STATUS_SUCCESS)then
-       write(*,*) "HIPSOLVER ERROR: Error code = ", hipsolverError_t
-       call exit(hipsolverError_t)
-    end if
-  end subroutine hipsolverCheck
   
   subroutine rocblasCheck(rocblasError_t)
     use hipfort_rocblas_enums
@@ -397,6 +389,7 @@ contains
        write(*,*) "ROCBLAS ERROR: Error code = ", rocblasError_t
        call exit(rocblasError_t)
     end if
+
   end subroutine rocblasCheck
 
   ! ROCm math libs
@@ -412,6 +405,7 @@ contains
        write(*,*) "ROCFFT ERROR: Error code = ", rocfft_status
        call exit(rocfft_status)
     end if
+
   end subroutine rocfftCheck
   
   subroutine rocsparseCheck(rocsparseError_t)
@@ -425,6 +419,7 @@ contains
        write(*,*) "ROCSPARSE ERROR: Error code = ", rocsparseError_t
        call exit(rocsparseError_t)
     end if
+
   end subroutine rocsparseCheck
   
   subroutine rocsolverCheck(rocsolverError_t)
@@ -439,6 +434,7 @@ contains
        write(*,*) "ROCSOLVER ERROR: Error code = ", rocsolverError_t
        call exit(rocsolverError_t)
     end if
+
   end subroutine rocsolverCheck
 
 end module hipfort_check

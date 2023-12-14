@@ -2,7 +2,7 @@
 ! ==============================================================================
 ! hipfort: FORTRAN Interfaces for GPU kernels
 ! ==============================================================================
-! Copyright (c) 2020-2022 Advanced Micro Devices, Inc. All rights reserved.
+! Copyright (c) 2021 Advanced Micro Devices, Inc. All rights reserved.
 ! [MITx11 License]
 ! 
 ! Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,8 +30,8 @@ module hipfort_rocfft
   implicit none
 
  
-  !>  @brief Library setup function, called once in program before start of
-  !>  library use
+  !> ! @brief Library setup function, called once in program before start of
+  !>   library use 
   interface rocfft_setup
     function rocfft_setup_() bind(c, name="rocfft_setup")
       use iso_c_binding
@@ -40,9 +40,10 @@ module hipfort_rocfft
       integer(kind(rocfft_status_success)) :: rocfft_setup_
     end function
 
+
   end interface
-  !>  @brief Library cleanup function, called once in program after end of library
-  !>  use
+  !> ! @brief Library cleanup function, called once in program after end of library
+  !>   use 
   interface rocfft_cleanup
     function rocfft_cleanup_() bind(c, name="rocfft_cleanup")
       use iso_c_binding
@@ -51,39 +52,41 @@ module hipfort_rocfft
       integer(kind(rocfft_status_success)) :: rocfft_cleanup_
     end function
 
+
   end interface
-  !>  @brief Create an FFT plan
-  !> 
-  !>   @details This API creates a plan, which the user can execute
-  !>   subsequently.  This function takes many of the fundamental
-  !>   parameters needed to specify a transform.
-  !> 
-  !>   The dimensions parameter can take a value of 1, 2, or 3. The
-  !>   'lengths' array specifies the size of data in each dimension. Note
-  !>   that lengths[0] is the size of the innermost dimension, lengths[1]
-  !>   is the next higher dimension and so on (column-major ordering).
-  !> 
-  !>   The 'number_of_transforms' parameter specifies how many
-  !>   transforms (of the same kind) needs to be computed. By specifying
-  !>   a value greater than 1, a batch of transforms can be computed
-  !>   with a single API call.
-  !> 
-  !>   Additionally, a handle to a plan description can be passed for
-  !>   more detailed transforms. For simple transforms, this parameter
-  !>   can be set to NULL.
-  !> 
-  !>   The plan must be destroyed with a call to rocfft_plan_destroy.
-  !> 
-  !>   @param[out] plan plan handle
-  !>   @param[in] placement placement of result
-  !>   @param[in] transform_type type of transform
-  !>   @param[in] precision precision
-  !>   @param[in] dimensions dimensions
-  !>   @param[in] lengths dimensions-sized array of transform lengths
-  !>   @param[in] number_of_transforms number of transforms
-  !>   @param[in] description description handle created by
-  !>  rocfft_plan_description_create; can be
-  !>   NULL for simple transforms
+  !> ! @brief Create an FFT plan
+  !>  
+  !>    @details This API creates a plan, which the user can execute
+  !>    subsequently.  This function takes many of the fundamental
+  !>    parameters needed to specify a transform.
+  !>  
+  !>    The dimensions parameter can take a value of 1, 2, or 3. The
+  !>    'lengths' array specifies the size of data in each dimension. Note
+  !>    that lengths[0] is the size of the innermost dimension, lengths[1]
+  !>    is the next higher dimension and so on (column-major ordering).
+  !>  
+  !>    The 'number_of_transforms' parameter specifies how many
+  !>    transforms (of the same kind) needs to be computed. By specifying
+  !>    a value greater than 1, a batch of transforms can be computed
+  !>    with a single API call.
+  !>  
+  !>    Additionally, a handle to a plan description can be passed for
+  !>    more detailed transforms. For simple transforms, this parameter
+  !>    can be set to NULL.
+  !>  
+  !>    The plan must be destroyed with a call to ::rocfft_plan_destroy.
+  !>  
+  !>    @param[out] plan plan handle
+  !>    @param[in] placement placement of result
+  !>    @param[in] transform_type type of transform
+  !>    @param[in] precision precision
+  !>    @param[in] dimensions dimensions
+  !>    @param[in] lengths dimensions-sized array of transform lengths
+  !>    @param[in] number_of_transforms number of transforms
+  !>    @param[in] description description handle created by
+  !>   rocfft_plan_description_create; can be
+  !>    NULL for simple transforms
+  !>    
   interface rocfft_plan_create
     function rocfft_plan_create_(plan,placement,transform_type,myPrecision,dimensions,lengths,number_of_transforms,description) bind(c, name="rocfft_plan_create")
       use iso_c_binding
@@ -101,39 +104,46 @@ module hipfort_rocfft
     end function
 
 #ifdef USE_FPOINTER_INTERFACES
-    module procedure &
-      rocfft_plan_create_rank_0,&
-      rocfft_plan_create_rank_1
+    module procedure rocfft_plan_create_rank_0,&
+      
+rocfft_plan_create_rank_1
 #endif
+
   end interface
-  !>  @brief Execute an FFT plan
-  !> 
-  !>   @details This API executes an FFT plan on buffers given by the user.
-  !> 
-  !>   If the transform is in-place, only the input buffer is needed and
-  !>   the output buffer parameter can be set to NULL. For not in-place
-  !>   transforms, output buffers have to be specified.
-  !> 
-  !>   Input and output buffer are arrays of pointers.  Interleaved
-  !>   array formats are the default, and require just one pointer per
-  !>   input or output buffer.  Planar array formats require two
-  !>   pointers per input or output buffer - real and imaginary
-  !>   pointers, in that order.
-  !> 
-  !>   Note that input buffers may still be overwritten during execution
-  !>   of a transform, even if the transform is not in-place.
-  !> 
-  !>   The final parameter in this function is a rocfft_execution_info
-  !>   handle. This optional parameter serves as a way for the user to control
-  !>   execution streams and work buffers.
-  !> 
-  !>   @param[in] plan plan handle
-  !>   @param[in,out] in_buffer array (of size 1 for interleaved data, of size 2
-  !>  for planar data) of input buffers
-  !>   @param[in,out] out_buffer array (of size 1 for interleaved data, of size 2
-  !>  for planar data) of output buffers, ignored for in-place transforms
-  !>   @param[in] info execution info handle created by
-  !>  rocfft_execution_info_create
+  !> ! @brief Execute an FFT plan
+  !>  
+  !>    @details This API executes an FFT plan on buffers given by the user.
+  !>  
+  !>    If the transform is in-place, only the input buffer is needed and
+  !>    the output buffer parameter can be set to NULL. For not in-place
+  !>    transforms, output buffers have to be specified.
+  !>  
+  !>    Input and output buffers are arrays of pointers.  Interleaved
+  !>    array formats are the default, and require just one pointer per
+  !>    input or output buffer.  Planar array formats require two
+  !>    pointers per input or output buffer - real and imaginary
+  !>    pointers, in that order.
+  !>  
+  !>    If fields have been set for transform input or output, these
+  !>    arrays have one pointer per brick in the input or output field,
+  !>    provided in the order that the bricks were added to the field.
+  !>  
+  !>    Note that input buffers may still be overwritten during execution
+  !>    of a transform, even if the transform is not in-place.
+  !>  
+  !>    The final parameter in this function is a rocfft_execution_info
+  !>    handle. This optional parameter serves as a way for the user to control
+  !>    execution streams and work buffers.
+  !>  
+  !>    @param[in] plan plan handle
+  !>    @param[in,out] in_buffer array (of size 1 for interleaved data, of size 2
+  !>   for planar data, or one per brick if an input field is set) of input buffers
+  !>    @param[in,out] out_buffer array (of size 1 for interleaved data, of size 2
+  !>   for planar data, or one per brick if an output field is set) of output buffers,
+  !>   ignored for in-place transforms
+  !>    @param[in] info execution info handle created by
+  !>   rocfft_execution_info_create
+  !>    
   interface rocfft_execute
     function rocfft_execute_(plan,in_buffer,out_buffer,myInfo) bind(c, name="rocfft_execute")
       use iso_c_binding
@@ -146,10 +156,12 @@ module hipfort_rocfft
       type(c_ptr),value :: myInfo
     end function
 
+
   end interface
-  !>  @brief Destroy an FFT plan
-  !>   @details This API frees the plan after it is no longer needed.
-  !>   @param[in] plan plan handle
+  !> ! @brief Destroy an FFT plan
+  !>    @details This API frees the plan after it is no longer needed.
+  !>    @param[in] plan plan handle
+  !>    
   interface rocfft_plan_destroy
     function rocfft_plan_destroy_(plan) bind(c, name="rocfft_plan_destroy")
       use iso_c_binding
@@ -159,74 +171,71 @@ module hipfort_rocfft
       type(c_ptr),value :: plan
     end function
 
+
   end interface
-  !>  @brief Set scaling factor in single precision
-  !>   @details This is one of plan description functions to specify optional additional plan properties using the description handle. This API specifies scaling factor.
-  !>   @param[in] description description handle
-  !>   @param[in] scale scaling factor
-  interface rocfft_plan_description_set_scale_float
-    function rocfft_plan_description_set_scale_float_(description,scale) bind(c, name="rocfft_plan_description_set_scale_float")
+  !> ! @brief Set scaling factor.
+  !>    @details rocFFT multiplies each element of the result by the given factor at the end of the transform.
+  !>  
+  !>    The supplied factor must be a finite number.  That is, it must neither be infinity nor NaN.
+  !>  
+  !>    @param[in] description description handle
+  !>    @param[in] scale_factor scaling factor
+  !>    
+  interface rocfft_plan_description_set_scale_factor
+    function rocfft_plan_description_set_scale_factor_(description,scale_factor) bind(c, name="rocfft_plan_description_set_scale_factor")
       use iso_c_binding
       use hipfort_rocfft_enums
       implicit none
-      integer(kind(rocfft_status_success)) :: rocfft_plan_description_set_scale_float_
+      integer(kind(rocfft_status_success)) :: rocfft_plan_description_set_scale_factor_
       type(c_ptr),value :: description
-      real(c_float),value :: scale
+      real(c_double),value :: scale_factor
     end function
 
-  end interface
-  !>  @brief Set scaling factor in double precision
-  !>   @details This is one of plan description functions to specify optional additional plan properties using the description handle. This API specifies scaling factor.
-  !>   @param[in] description description handle
-  !>   @param[in] scale scaling factor
-  interface rocfft_plan_description_set_scale_double
-    function rocfft_plan_description_set_scale_double_(description,scale) bind(c, name="rocfft_plan_description_set_scale_double")
-      use iso_c_binding
-      use hipfort_rocfft_enums
-      implicit none
-      integer(kind(rocfft_status_success)) :: rocfft_plan_description_set_scale_double_
-      type(c_ptr),value :: description
-      real(c_double),value :: scale
-    end function
 
   end interface
-  !>   @brief Set advanced data layout parameters on a plan description
+  !> !
+  !>    @brief Set advanced data layout parameters on a plan description
   !>  
-  !>   @details This API specifies advanced layout of input/output
-  !>   buffers for a plan description.
+  !>    @details This API specifies advanced layout of inputoutput
+  !>    buffers for a plan description.
   !>  
-  !>   The following parameters are supported for inputs and outputs:
-  !> 
-  !>   * Array type (real, hermitian, or complex data, in either
-  !>     interleaved or planar format).
-  !>       * Real forward transforms require real input and hermitian output.
-  !>       * Real inverse transforms require hermitian input and real output.
-  !>       * Complex transforms require complex input and output.
-  !>       * Hermitian and complex data defaults to interleaved if a specific
+  !>    The following parameters are supported for inputs and outputs:
+  !>  
+  !>     Array type (real, hermitian, or complex data, in either
+  !>      interleaved or planar format).
+  !>         Real forward transforms require real input and hermitian output.
+  !>         Real inverse transforms require hermitian input and real output.
+  !>         Complex transforms require complex input and output.
+  !>         Hermitian and complex data defaults to interleaved if a specific
   !>           format is not specified.
-  !>   * Offset of first data element in the data buffer.  Defaults to 0 if unspecified.
-  !>   * Stride between consecutive elements in each dimension.  Defaults
+  !>     Offset of first data element in the data buffer.  Defaults to 0 if unspecified.
+  !>     Stride between consecutive elements in each dimension.  Defaults
   !>       to contiguous data in all dimensions if unspecified.
-  !>   * Distance between consecutive batches.  Defaults to contiguous
+  !>     Distance between consecutive batches.  Defaults to contiguous
   !>       batches if unspecified.
-  !> 
-  !>   Not all combinations of array types are supported and error codes
-  !>   will be returned for unsupported cases.
-  !> 
-  !>   @param[in, out] description description handle
-  !>   @param[in] in_array_type array type of input buffer
-  !>   @param[in] out_array_type array type of output buffer
-  !>   @param[in] in_offsets offsets, in element units, to start of data in input buffer
-  !>   @param[in] out_offsets offsets, in element units, to start of data in output buffer
-  !>   @param[in] in_strides_size size of in_strides array (must be equal to transform dimensions)
-  !>   @param[in] in_strides array of strides, in each dimension, of
-  !>    input buffer; if set to null ptr library chooses defaults
-  !>   @param[in] in_distance distance between start of each data instance in input buffer
-  !>   @param[in] out_strides_size size of out_strides array (must be
-  !>   equal to transform dimensions)
-  !>   @param[in] out_strides array of strides, in each dimension, of
-  !>    output buffer; if set to null ptr library chooses defaults
-  !>   @param[in] out_distance distance between start of each data instance in output buffer
+  !>  
+  !>    Not all combinations of array types are supported and error codes
+  !>    will be returned for unsupported cases.
+  !>  
+  !>    Offset, stride, and distance for either input or output provided
+  !>    here is ignored if a field is set for the corresponding input or
+  !>    output.
+  !>   
+  !>    @param[in, out] description description handle
+  !>    @param[in] in_array_type array type of input buffer
+  !>    @param[in] out_array_type array type of output buffer
+  !>    @param[in] in_offsets offsets, in element units, to start of data in input buffer
+  !>    @param[in] out_offsets offsets, in element units, to start of data in output buffer
+  !>    @param[in] in_strides_size size of in_strides array (must be equal to transform dimensions)
+  !>    @param[in] in_strides array of strides, in each dimension, of
+  !>     input buffer; if set to null ptr library chooses defaults
+  !>    @param[in] in_distance distance between start of each data instance in input buffer
+  !>    @param[in] out_strides_size size of out_strides array (must be
+  !>    equal to transform dimensions)
+  !>    @param[in] out_strides array of strides, in each dimension, of
+  !>     output buffer; if set to null ptr library chooses defaults
+  !>    @param[in] out_distance distance between start of each data instance in output buffer
+  !>  
   interface rocfft_plan_description_set_data_layout
     function rocfft_plan_description_set_data_layout_(description,in_array_type,out_array_type,in_offsets,out_offsets,in_strides_size,in_strides,in_distance,out_strides_size,out_strides,out_distance) bind(c, name="rocfft_plan_description_set_data_layout")
       use iso_c_binding
@@ -247,15 +256,50 @@ module hipfort_rocfft
     end function
 
 #ifdef USE_FPOINTER_INTERFACES
-    module procedure &
-      rocfft_plan_description_set_data_layout_rank_0,&
-      rocfft_plan_description_set_data_layout_rank_1
+    module procedure rocfft_plan_description_set_data_layout_rank_0,&
+      
+rocfft_plan_description_set_data_layout_rank_1
 #endif
+
   end interface
-  !>  @brief Get library version string
-  !> 
-  !>  @param[in, out] buf buffer that receives the version string
-  !>  @param[in] len length of buf, minimum 30 characters
+  !> ! @brief Create a rocfft field struct.
+  !>  
+  !>    @warning Experimental!  This feature is part of an experimental API preview.
+  !>  
+  interface rocfft_field_create
+    function rocfft_field_create_(field) bind(c, name="rocfft_field_create")
+      use iso_c_binding
+      use hipfort_rocfft_enums
+      implicit none
+      integer(kind(rocfft_status_success)) :: rocfft_field_create_
+      type(c_ptr) :: field
+    end function
+
+
+  end interface
+  !> ! @brief Destroy a rocfft field struct
+  !>   
+  !>   The field struct can be destroyed after being added to the plan description; it is not used for
+  !>   plan execution.
+  !>  
+  !>    @warning Experimental!  This feature is part of an experimental API preview.
+  !>  
+  interface rocfft_field_destroy
+    function rocfft_field_destroy_(field) bind(c, name="rocfft_field_destroy")
+      use iso_c_binding
+      use hipfort_rocfft_enums
+      implicit none
+      integer(kind(rocfft_status_success)) :: rocfft_field_destroy_
+      type(c_ptr),value :: field
+    end function
+
+
+  end interface
+  !> ! @brief Get library version string
+  !>  
+  !>   @param[in, out] buf buffer that receives the version string
+  !>   @param[in] len length of buf, minimum 30 characters
+  !>  
   interface rocfft_get_version_string
     function rocfft_get_version_string_(buf,len) bind(c, name="rocfft_get_version_string")
       use iso_c_binding
@@ -266,28 +310,142 @@ module hipfort_rocfft
       integer(c_size_t),value :: len
     end function
 
+
   end interface
-  !>  @brief Set devices in plan description
-  !>   @details This is one of plan description functions to specify optional additional plan properties using the description handle. This API specifies what compute devices to target.
-  !>   @param[in] description description handle
-  !>   @param[in] devices array of device identifiers
-  !>   @param[in] number_of_devices number of devices (size of devices array)
-  interface rocfft_plan_description_set_devices
-    function rocfft_plan_description_set_devices_(description,devices,number_of_devices) bind(c, name="rocfft_plan_description_set_devices")
+  !> ! @brief Define a brick as part of a decomposition of a field.
+  !>  
+  !>   Fields can contain a full-dimensional data distribution.  The
+  !>   decomposition is specified by providing a lower coordinate and an
+  !>   upper coordinate in the field's index space.  The lower coordinate
+  !>   is inclusive (contained within the brick) and the upper coordinate
+  !>   is exclusive (first index past the end of the brick).
+  !>  
+  !>   One must also provide a stride for the brick data which specifies
+  !>   how the brick's data is arranged in memory.
+  !>  
+  !>   All coordinates and strides include batch dimensions.
+  !>  
+  !>   A HIP device ID is also provided - each brick may reside on a
+  !>   different device.
+  !>  
+  !>   All arrays may be re-used or freed immediately after the function returns.
+  !>  
+  !>   @param[out] brick: brick structure
+  !>   @param[in] field_lower: array of length dim specifying the lower index (inclusive) for the brick in the
+  !>   field's index space.
+  !>   @param[in] field_upper: array of length dim specifying the upper index (exclusive) for the brick in the
+  !>   field's index space.
+  !>   @param[in] brick_stride: array of length dim specifying the brick's stride in memory
+  !>   @param[in] dim length of brick: includes lengths and batch dimension; must match the dimension of
+  !>   the lengths + batch dimension of the transform.
+  !>   @param[in] deviceID: HIP device ID for the device on which the brick's data is resident.
+  !>  
+  !>    @warning Experimental!  This feature is part of an experimental API preview.
+  !>  
+  interface rocfft_brick_create
+    function rocfft_brick_create_(brick,field_lower,field_upper,brick_stride,dim,deviceID) bind(c, name="rocfft_brick_create")
       use iso_c_binding
       use hipfort_rocfft_enums
       implicit none
-      integer(kind(rocfft_status_success)) :: rocfft_plan_description_set_devices_
-      type(c_ptr),value :: description
-      type(c_ptr),value :: devices
-      integer(c_size_t),value :: number_of_devices
+      integer(kind(rocfft_status_success)) :: rocfft_brick_create_
+      type(c_ptr) :: brick
+      type(c_ptr),value :: field_lower
+      type(c_ptr),value :: field_upper
+      type(c_ptr),value :: brick_stride
+      integer(c_size_t),value :: dim
+      integer(c_int),value :: deviceID
     end function
 
+
   end interface
-  !>  @brief Get work buffer size
-  !>   @details Get the work buffer size required for a plan.
-  !>   @param[in] plan plan handle
-  !>   @param[out] size_in_bytes size of needed work buffer in bytes
+  !> ! @brief Deallocate a brick created with rocfft_brick_create.
+  !>  
+  !>    @warning Experimental!  This feature is part of an experimental API preview.
+  !>  
+  interface rocfft_brick_destroy
+    function rocfft_brick_destroy_(brick) bind(c, name="rocfft_brick_destroy")
+      use iso_c_binding
+      use hipfort_rocfft_enums
+      implicit none
+      integer(kind(rocfft_status_success)) :: rocfft_brick_destroy_
+      type(c_ptr),value :: brick
+    end function
+
+
+  end interface
+  !> ! @brief Add a brick to a field.
+  !>  
+  !>   Note that the order in which the bricks are added is significant;
+  !>   the pointers provided for each brick to ::rocfft_execute are in
+  !>   the same order that the bricks were added to the field.
+  !>  
+  !>   The brick may be added to another field or destroyed any time
+  !>   after this function returns.
+  !>   
+  !>   @param[in, out] field: \ref rocfft_field struct which holds the brick decomposition.
+  !>   @param[in] brick: \ref rocfft_brick struct to add to the field.
+  !>  
+  !>    @warning Experimental!  This feature is part of an experimental API preview.
+  !>  
+  interface rocfft_field_add_brick
+    function rocfft_field_add_brick_(field,brick) bind(c, name="rocfft_field_add_brick")
+      use iso_c_binding
+      use hipfort_rocfft_enums
+      implicit none
+      integer(kind(rocfft_status_success)) :: rocfft_field_add_brick_
+      type(c_ptr),value :: field
+      type(c_ptr),value :: brick
+    end function
+
+
+  end interface
+  !> ! @brief Add a \ref rocfft_field to a \ref rocfft_plan_description as an input.
+  !>  
+  !>   The field may be reused or freed immediately after the function returns.
+  !>  
+  !>   @param[in, out] description: \ref rocfft_plan_description that will pass the field information to plan creation
+  !>   @param[in] field: \ref rocfft_field struct added as an input field
+  !>  
+  !>    @warning Experimental!  This feature is part of an experimental API preview.
+  !>  
+  interface rocfft_plan_description_add_infield
+    function rocfft_plan_description_add_infield_(description,field) bind(c, name="rocfft_plan_description_add_infield")
+      use iso_c_binding
+      use hipfort_rocfft_enums
+      implicit none
+      integer(kind(rocfft_status_success)) :: rocfft_plan_description_add_infield_
+      type(c_ptr),value :: description
+      type(c_ptr),value :: field
+    end function
+
+
+  end interface
+  !> ! @brief Add a \ref rocfft_field to a \ref rocfft_plan_description as an output.
+  !>  
+  !>   The field may be reused or freed immediately after the function returns.
+  !>   
+  !>   @param[in, out] description: \ref rocfft_plan_description  that will pass the field information to plan creation
+  !>   @param[in] field: \ref rocfft_field struct added as an output field
+  !>  
+  !>    @warning Experimental!  This feature is part of an experimental API preview.
+  !>  
+  interface rocfft_plan_description_add_outfield
+    function rocfft_plan_description_add_outfield_(description,field) bind(c, name="rocfft_plan_description_add_outfield")
+      use iso_c_binding
+      use hipfort_rocfft_enums
+      implicit none
+      integer(kind(rocfft_status_success)) :: rocfft_plan_description_add_outfield_
+      type(c_ptr),value :: description
+      type(c_ptr),value :: field
+    end function
+
+
+  end interface
+  !> ! @brief Get work buffer size
+  !>    @details Get the work buffer size required for a plan.
+  !>    @param[in] plan plan handle
+  !>    @param[out] size_in_bytes size of needed work buffer in bytes
+  !>    
   interface rocfft_plan_get_work_buffer_size
     function rocfft_plan_get_work_buffer_size_(plan,size_in_bytes) bind(c, name="rocfft_plan_get_work_buffer_size")
       use iso_c_binding
@@ -298,10 +456,12 @@ module hipfort_rocfft
       integer(c_size_t) :: size_in_bytes
     end function
 
+
   end interface
-  !>  @brief Print all plan information
-  !>   @details Prints plan details to stdout, to aid debugging
-  !>   @param[in] plan plan handle
+  !> ! @brief Print all plan information
+  !>    @details Prints plan details to stdout, to aid debugging
+  !>    @param[in] plan plan handle
+  !>    
   interface rocfft_plan_get_print
     function rocfft_plan_get_print_(plan) bind(c, name="rocfft_plan_get_print")
       use iso_c_binding
@@ -311,12 +471,13 @@ module hipfort_rocfft
       type(c_ptr),value :: plan
     end function
 
+
   end interface
-  !>  @brief Create plan description
-  !>   @details This API creates a plan description with which the user
-  !>  can set extra plan properties.  The plan description must be freed
-  !>  with a call to rocfft_plan_description_destroy.
-  !>   @param[out] description plan description handle
+  !> ! @brief Create plan description
+  !>    @details This API creates a plan description with which the user
+  !>   can set extra plan properties.  The plan description must be freed
+  !>   with a call to ::rocfft_plan_description_destroy.
+  !>    @param[out] description plan description handle 
   interface rocfft_plan_description_create
     function rocfft_plan_description_create_(description) bind(c, name="rocfft_plan_description_create")
       use iso_c_binding
@@ -326,11 +487,13 @@ module hipfort_rocfft
       type(c_ptr) :: description
     end function
 
+
   end interface
-  !>  @brief Destroy a plan description
-  !>   @details This API frees the plan description.  A plan description
-  !>   can be freed any time after it is passed to rocfft_plan_create.
-  !>   @param[in] description plan description handle
+  !> ! @brief Destroy a plan description
+  !>    @details This API frees the plan description.  A plan description
+  !>    can be freed any time after it is passed to ::rocfft_plan_create.
+  !>    @param[in] description plan description handle
+  !>    
   interface rocfft_plan_description_destroy
     function rocfft_plan_description_destroy_(description) bind(c, name="rocfft_plan_description_destroy")
       use iso_c_binding
@@ -340,12 +503,14 @@ module hipfort_rocfft
       type(c_ptr),value :: description
     end function
 
+
   end interface
-  !>  @brief Create execution info
-  !>   @details This API creates an execution info with which the user
-  !>  can control plan execution and work buffers.  The execution info must be freed
-  !>  with a call to rocfft_execution_info_destroy.
-  !>   @param[out] info execution info handle
+  !> ! @brief Create execution info
+  !>    @details This API creates an execution info with which the user
+  !>   can control plan execution and work buffers.  The execution info must be freed
+  !>   with a call to ::rocfft_execution_info_destroy.
+  !>    @param[out] info execution info handle
+  !>    
   interface rocfft_execution_info_create
     function rocfft_execution_info_create_(myInfo) bind(c, name="rocfft_execution_info_create")
       use iso_c_binding
@@ -355,12 +520,14 @@ module hipfort_rocfft
       type(c_ptr) :: myInfo
     end function
 
+
   end interface
-  !>  @brief Destroy an execution info
-  !>   @details This API frees the execution info.  An execution info
-  !>   object can be freed any time after it is passed to
-  !>   rocfft_execute.
-  !>   @param[in] info execution info handle
+  !> ! @brief Destroy an execution info
+  !>    @details This API frees the execution info.  An execution info
+  !>    object can be freed any time after it is passed to
+  !>    ::rocfft_execute.
+  !>    @param[in] info execution info handle
+  !>    
   interface rocfft_execution_info_destroy
     function rocfft_execution_info_destroy_(myInfo) bind(c, name="rocfft_execution_info_destroy")
       use iso_c_binding
@@ -370,32 +537,34 @@ module hipfort_rocfft
       type(c_ptr),value :: myInfo
     end function
 
+
   end interface
-  !>  @brief Set work buffer in execution info
-  !> 
-  !>   @details This is one of the execution info functions to specify
-  !>   optional additional information to control execution.  This API
-  !>   provides a work buffer for the transform. It must be called
-  !>   before rocfft_execute.
-  !> 
-  !>   When a non-zero value is obtained from
-  !>   rocfft_plan_get_work_buffer_size, that means the library needs a
-  !>   work buffer to compute the transform. In this case, the user
-  !>   should allocate the work buffer and pass it to the library via
-  !>   this API.
-  !> 
-  !>   If a work buffer is required for the transform but is not
-  !>   specified using this function, rocfft_execute will automatically
-  !>   allocate the required buffer and free it when execution is
-  !>   finished.
-  !> 
-  !>   Users should allocate their own work buffers if they need precise
-  !>   control over the lifetimes of those buffers, or if multiple plans
-  !>   need to share the same buffer.
-  !> 
-  !>   @param[in] info execution info handle
-  !>   @param[in] work_buffer work buffer
-  !>   @param[in] size_in_bytes size of work buffer in bytes
+  !> ! @brief Set work buffer in execution info
+  !>  
+  !>    @details This is one of the execution info functions to specify
+  !>    optional additional information to control execution.  This API
+  !>    provides a work buffer for the transform. It must be called
+  !>    before ::rocfft_execute.
+  !>  
+  !>    When a non-zero value is obtained from
+  !>    ::rocfft_plan_get_work_buffer_size, that means the library needs a
+  !>    work buffer to compute the transform. In this case, the user
+  !>    should allocate the work buffer and pass it to the library via
+  !>    this API.
+  !>  
+  !>    If a work buffer is required for the transform but is not
+  !>    specified using this function, ::rocfft_execute will automatically
+  !>    allocate the required buffer and free it when execution is
+  !>    finished.
+  !>  
+  !>    Users should allocate their own work buffers if they need precise
+  !>    control over the lifetimes of those buffers, or if multiple plans
+  !>    need to share the same buffer.
+  !>  
+  !>    @param[in] info execution info handle
+  !>    @param[in] work_buffer work buffer
+  !>    @param[in] size_in_bytes size of work buffer in bytes
+  !>    
   interface rocfft_execution_info_set_work_buffer
     function rocfft_execution_info_set_work_buffer_(myInfo,work_buffer,size_in_bytes) bind(c, name="rocfft_execution_info_set_work_buffer")
       use iso_c_binding
@@ -407,13 +576,15 @@ module hipfort_rocfft
       integer(c_size_t),value :: size_in_bytes
     end function
 
+
   end interface
-  !>  @brief Set execution mode in execution info
-  !>   @details This is one of the execution info functions to specify optional additional information to control execution.
-  !>   This API specifies execution mode. It has to be called before the call to rocfft_execute.
-  !>   Appropriate enumeration value can be specified to control blocking/non-blocking behavior of the rocfft_execute call.
-  !>   @param[in] info execution info handle
-  !>   @param[in] mode execution mode
+  !> ! @brief Set execution mode in execution info
+  !>    @details This is one of the execution info functions to specify optional additional information to control execution.
+  !>    This API specifies execution mode. It has to be called before the call to rocfft_execute.
+  !>    Appropriate enumeration value can be specified to control blockingnon-blocking behavior of the rocfft_execute call.
+  !>    @param[in] info execution info handle
+  !>    @param[in] mode execution mode
+  !>    
   interface rocfft_execution_info_set_mode
     function rocfft_execution_info_set_mode_(myInfo,mode) bind(c, name="rocfft_execution_info_set_mode")
       use iso_c_binding
@@ -424,19 +595,21 @@ module hipfort_rocfft
       integer(kind(rocfft_exec_mode_nonblocking)),value :: mode
     end function
 
+
   end interface
-  !>  @brief Set stream in execution info
-  !>   @details Associates an existing compute stream to a plan.  This
-  !>  must be called before the call to rocfft_execute.
-  !> 
-  !>   Once the association is made, execution of the FFT will run the
-  !>   computation through the specified stream.
-  !> 
-  !>   The stream must be of type hipStream_t. It is an error to pass
-  !>   the address of a hipStream_t object.
-  !> 
-  !>   @param[in] info execution info handle
-  !>   @param[in] stream underlying compute stream
+  !> ! @brief Set stream in execution info
+  !>    @details Associates an existing compute stream to a plan.  This
+  !>   must be called before the call to ::rocfft_execute.
+  !>  
+  !>    Once the association is made, execution of the FFT will run the
+  !>    computation through the specified stream.
+  !>  
+  !>    The stream must be of type hipStream_t. It is an error to pass
+  !>    the address of a hipStream_t object.
+  !>  
+  !>    @param[in] info execution info handle
+  !>    @param[in] stream underlying compute stream
+  !>    
   interface rocfft_execution_info_set_stream
     function rocfft_execution_info_set_stream_(myInfo,stream) bind(c, name="rocfft_execution_info_set_stream")
       use iso_c_binding
@@ -447,42 +620,43 @@ module hipfort_rocfft
       type(c_ptr),value :: stream
     end function
 
+
   end interface
-  !>  @brief Set a load callback for a plan execution (experimental)
-  !>   @details This function specifies a user-defined callback function
-  !>   that is run to load input from global memory at the start of the
-  !>   transform.  Callbacks are an experimental feature in rocFFT.
-  !> 
-  !>   Callback function pointers/data are given as arrays, with one
-  !>   function/data pointer per device executing this plan.  Currently,
-  !>   plans can only use one device.
-  !> 
-  !>   The provided function pointers replace any previously-specified
-  !>   load callback for this execution info handle.
-  !> 
-  !>   Load callbacks have the following signature:
-  !> 
-  !>   @code
-  !>   T load_cb(T* data, size_t offset, void* cbdata, void* sharedMem);
-  !>   @endcode
-  !> 
-  !>   'T' is the type of a single element of the input buffer.  It is
-  !>   the caller's responsibility to ensure that the function type is
-  !>   appropriate for the plan (for example, a single-precision
-  !>   real-to-complex transform would load single-precision real
-  !>   elements).
-  !> 
-  !>   A null value for 'cb' may be specified to clear any previously
-  !>   registered load callback.
-  !> 
-  !>   Currently, 'shared_mem_bytes' must be 0.  Callbacks are not
-  !>   supported on transforms that use planar formats for either input
-  !>   or output.
-  !> 
-  !>   @param[in] info execution info handle
-  !>   @param[in] cb callback function pointers
-  !>   @param[in] cbdata callback function data, passed to the function pointer when it is called
-  !>   @param[in] shared_mem_bytes amount of shared memory to allocate for the callback function to use
+  !> ! @brief Set a load callback for a plan execution (experimental)
+  !>    @details This function specifies a user-defined callback function
+  !>    that is run to load input from global memory at the start of the
+  !>    transform.  Callbacks are an experimental feature in rocFFT.
+  !>  
+  !>    Callback function pointersdata are given as arrays, with one
+  !>    functiondata pointer per device executing this plan.  Currently,
+  !>    plans can only use one device.
+  !>  
+  !>    The provided function pointers replace any previously-specified
+  !>    load callback for this execution info handle.
+  !>  
+  !>    Load callbacks have the following signature:
+  !>  
+  !>    @code
+  !>    T load_cb(T data, size_t offset, void cbdata, void sharedMem);
+  !>    @endcode
+  !>  
+  !>    'T' is the type of a single element of the input buffer.  It is
+  !>    the caller's responsibility to ensure that the function type is
+  !>    appropriate for the plan (for example, a single-precision
+  !>    real-to-complex transform would load single-precision real
+  !>    elements).
+  !>  
+  !>    A null value for 'cb' may be specified to clear any previously
+  !>    registered load callback.
+  !>  
+  !>    Currently, 'shared_mem_bytes' must be 0.  Callbacks are not
+  !>    supported on transforms that use planar formats for either input
+  !>    or output.
+  !>  
+  !>    @param[in] info execution info handle
+  !>    @param[in] cb_functions callback function pointers
+  !>    @param[in] cb_data callback function data, passed to the function pointer when it is called
+  !>    @param[in] shared_mem_bytes amount of shared memory to allocate for the callback function to use 
   interface rocfft_execution_info_set_load_callback
     function rocfft_execution_info_set_load_callback_(myInfo,cb_functions,cb_data,shared_mem_bytes) bind(c, name="rocfft_execution_info_set_load_callback")
       use iso_c_binding
@@ -495,42 +669,44 @@ module hipfort_rocfft
       integer(c_size_t),value :: shared_mem_bytes
     end function
 
+
   end interface
-  !>  @brief Set a store callback for a plan execution (experimental)
-  !>   @details This function specifies a user-defined callback function
-  !>   that is run to store output to global memory at the end of the
-  !>   transform.  Callbacks are an experimental feature in rocFFT.
-  !> 
-  !>   Callback function pointers/data are given as arrays, with one
-  !>   function/data pointer per device executing this plan.  Currently,
-  !>   plans can only use one device.
-  !> 
-  !>   The provided function pointers replace any previously-specified
-  !>   store callback for this execution info handle.
-  !> 
-  !>   Store callbacks have the following signature:
-  !> 
-  !>   @code
-  !>   void store_cb(T* data, size_t offset, T element, void* cbdata, void* sharedMem);
-  !>   @endcode
-  !> 
-  !>   'T' is the type of a single element of the output buffer.  It is
-  !>   the caller's responsibility to ensure that the function type is
-  !>   appropriate for the plan (for example, a single-precision
-  !>   real-to-complex transform would store single-precision complex
-  !>   elements).
-  !> 
-  !>   A null value for 'cb' may be specified to clear any previously
-  !>   registered store callback.
-  !> 
-  !>   Currently, 'shared_mem_bytes' must be 0.  Callbacks are not
-  !>   supported on transforms that use planar formats for either input
-  !>   or output.
-  !> 
-  !>   @param[in] info execution info handle
-  !>   @param[in] cb callbacks function pointers
-  !>   @param[in] cbdata callback function data, passed to the function pointer when it is called
-  !>   @param[in] shared_mem_bytes amount of shared memory to allocate for the callback function to use
+  !> ! @brief Set a store callback for a plan execution (experimental)
+  !>    @details This function specifies a user-defined callback function
+  !>    that is run to store output to global memory at the end of the
+  !>    transform.  Callbacks are an experimental feature in rocFFT.
+  !>  
+  !>    Callback function pointersdata are given as arrays, with one
+  !>    functiondata pointer per device executing this plan.  Currently,
+  !>    plans can only use one device.
+  !>  
+  !>    The provided function pointers replace any previously-specified
+  !>    store callback for this execution info handle.
+  !>  
+  !>    Store callbacks have the following signature:
+  !>  
+  !>    @code
+  !>    void store_cb(T data, size_t offset, T element, void cbdata, void sharedMem);
+  !>    @endcode
+  !>  
+  !>    'T' is the type of a single element of the output buffer.  It is
+  !>    the caller's responsibility to ensure that the function type is
+  !>    appropriate for the plan (for example, a single-precision
+  !>    real-to-complex transform would store single-precision complex
+  !>    elements).
+  !>  
+  !>    A null value for 'cb' may be specified to clear any previously
+  !>    registered store callback.
+  !>  
+  !>    Currently, 'shared_mem_bytes' must be 0.  Callbacks are not
+  !>    supported on transforms that use planar formats for either input
+  !>    or output.
+  !>  
+  !>    @param[in] info execution info handle
+  !>    @param[in] cb_functions callbacks function pointers
+  !>    @param[in] cb_data callback function data, passed to the function pointer when it is called
+  !>    @param[in] shared_mem_bytes amount of shared memory to allocate for the callback function to use
+  !>    
   interface rocfft_execution_info_set_store_callback
     function rocfft_execution_info_set_store_callback_(myInfo,cb_functions,cb_data,shared_mem_bytes) bind(c, name="rocfft_execution_info_set_store_callback")
       use iso_c_binding
@@ -543,14 +719,16 @@ module hipfort_rocfft
       integer(c_size_t),value :: shared_mem_bytes
     end function
 
+
   end interface
-  !>  @brief Get events from execution info
-  !>   @details This is one of the execution info functions to retrieve information from execution.
-  !>   This API obtains event information. It has to be called after the call to rocfft_execute.
-  !>   This gets handles to events that the library created around one or more kernel launches during execution.
-  !>   @param[in] info execution info handle
-  !>   @param[out] events array of events
-  !>   @param[out] number_of_events number of events (size of events array)
+  !> ! @brief Get events from execution info
+  !>    @details This is one of the execution info functions to retrieve information from execution.
+  !>    This API obtains event information. It has to be called after the call to rocfft_execute.
+  !>    This gets handles to events that the library created around one or more kernel launches during execution.
+  !>    @param[in] info execution info handle
+  !>    @param[out] events array of events
+  !>    @param[out] number_of_events number of events (size of events array)
+  !>    
   interface rocfft_execution_info_get_events
     function rocfft_execution_info_get_events_(myInfo,events,number_of_events) bind(c, name="rocfft_execution_info_get_events")
       use iso_c_binding
@@ -562,13 +740,14 @@ module hipfort_rocfft
       integer(c_size_t) :: number_of_events
     end function
 
+
   end interface
-  !>  @brief Serialize compiled kernel cache
+  !> ! @brief Serialize compiled kernel cache
   !> 
-  !>   @details Serialize rocFFT's cache of compiled kernels into a
-  !>   buffer.  This buffer is allocated by rocFFT and must be freed
-  !>   with a call to rocfft_cache_buffer_free.  The length of the
-  !>   buffer in bytes is written to 'buffer_len_bytes'.
+  !>    @details Serialize rocFFT's cache of compiled kernels into a
+  !>    buffer.  This buffer is allocated by rocFFT and must be freed
+  !>    with a call to ::rocfft_cache_buffer_free.  The length of the
+  !>    buffer in bytes is written to 'buffer_len_bytes'. 
   interface rocfft_cache_serialize
     function rocfft_cache_serialize_(buffer,buffer_len_bytes) bind(c, name="rocfft_cache_serialize")
       use iso_c_binding
@@ -579,10 +758,11 @@ module hipfort_rocfft
       type(c_ptr),value :: buffer_len_bytes
     end function
 
+
   end interface
-  !>  @brief Free cache serialization buffer
+  !> ! @brief Free cache serialization buffer
   !> 
-  !>   @details Deallocate a buffer allocated by rocfft_cache_serialize.
+  !>    @details Deallocate a buffer allocated by ::rocfft_cache_serialize.  
   interface rocfft_cache_buffer_free
     function rocfft_cache_buffer_free_(buffer) bind(c, name="rocfft_cache_buffer_free")
       use iso_c_binding
@@ -592,14 +772,15 @@ module hipfort_rocfft
       type(c_ptr),value :: buffer
     end function
 
+
   end interface
-  !>  @brief Deserialize a buffer into the compiled kernel cache.
+  !> ! @brief Deserialize a buffer into the compiled kernel cache.
   !> 
-  !>   @details Kernels in the buffer that match already-cached kernels
-  !>   will replace those kernels that are in the cache.  Already-cached
-  !>   kernels that do not match those in the buffer are unmodified by
-  !>   this operation.  The cache is unmodified if either a null buffer
-  !>   pointer or a zero length is passed.
+  !>    @details Kernels in the buffer that match already-cached kernels
+  !>    will replace those kernels that are in the cache.  Already-cached
+  !>    kernels that do not match those in the buffer are unmodified by
+  !>    this operation.  The cache is unmodified if either a null buffer
+  !>    pointer or a zero length is passed. 
   interface rocfft_cache_deserialize
     function rocfft_cache_deserialize_(buffer,buffer_len_bytes) bind(c, name="rocfft_cache_deserialize")
       use iso_c_binding
@@ -609,6 +790,24 @@ module hipfort_rocfft
       type(c_ptr),value :: buffer
       integer(c_size_t),value :: buffer_len_bytes
     end function
+
+
+  end interface
+  !> ! @brief Get a handler of offline-tuner
+  !> 
+  !>    @details This is for developers only, so the actual type is not
+  !>    public to API yet. This API is used only in our standalone executable.
+  !>    Must be called after rocfft_setup. And de-references the return handle to get
+  !>    the tuner-pointer 
+  interface rocfft_get_offline_tuner_handle
+    function rocfft_get_offline_tuner_handle_(offline_tuner) bind(c, name="rocfft_get_offline_tuner_handle")
+      use iso_c_binding
+      use hipfort_rocfft_enums
+      implicit none
+      integer(kind(rocfft_status_success)) :: rocfft_get_offline_tuner_handle_
+      type(c_ptr) :: offline_tuner
+    end function
+
 
   end interface
 

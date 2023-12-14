@@ -2,7 +2,7 @@
 ! ==============================================================================
 ! hipfort: FORTRAN Interfaces for GPU kernels
 ! ==============================================================================
-! Copyright (c) 2020-2022 Advanced Micro Devices, Inc. All rights reserved.
+! Copyright (c) 2021 Advanced Micro Devices, Inc. All rights reserved.
 ! [MITx11 License]
 ! 
 ! Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -34,14 +34,14 @@ module hipfort_hiphostregister
   !>    @param[in] flags.  See below.
   !>  
   !>    Flags:
-  !>    - hipHostRegisterDefault   Memory is Mapped and Portable
-  !>    - hipHostRegisterPortable  Memory is considered registered by all contexts.  HIP only supports
+  !>    - #hipHostRegisterDefault   Memory is Mapped and Portable
+  !>    - #hipHostRegisterPortable  Memory is considered registered by all contexts.  HIP only supports
   !>   one context so this is always assumed true.
-  !>    - hipHostRegisterMapped    Map the allocation into the address space for the current device.
-  !>   The device pointer can be obtained with hipHostGetDevicePointer.
+  !>    - #hipHostRegisterMapped    Map the allocation into the address space for the current device.
+  !>   The device pointer can be obtained with #hipHostGetDevicePointer.
   !>  
   !>  
-  !>    After registering the memory, use hipHostGetDevicePointer to obtain the mapped device pointer.
+  !>    After registering the memory, use #hipHostGetDevicePointer to obtain the mapped device pointer.
   !>    On many systems, the mapped device pointer will have a different value than the mapped host
   !>   pointer.  Applications must use the device pointer in device code, and the host pointer in device
   !>   code.
@@ -58,7 +58,7 @@ module hipfort_hiphostregister
   !>   typically one of the writes will "win" and overwrite data from the other registered memory
   !>   region.
   !>  
-  !>    @return hipSuccess, hipErrorOutOfMemory
+  !>    @return #hipSuccess, #hipErrorOutOfMemory
   !>  
   !>    @see hipHostUnregister, hipHostGetFlags, hipHostGetDevicePointer
   !>  
@@ -245,7 +245,7 @@ module hipfort_hiphostregister
   !> 
   !>    @brief Un-register host pointer
   !>  
-  !>    @param[in] hostPtr Host pointer previously registered with hipHostRegister
+  !>    @param[in] hostPtr Host pointer previously registered with #hipHostRegister
   !>    @return Error code
   !>  
   !>    @see hipHostRegister
@@ -338,7 +338,7 @@ module hipfort_hiphostregister
   !>    @param[in]  hstPtr Host Pointer allocated through hipHostMalloc
   !>    @param[in]  flags Flags to be passed for extension
   !>  
-  !>    @return hipSuccess, hipErrorInvalidValue, hipErrorOutOfMemory
+  !>    @return #hipSuccess, #hipErrorInvalidValue, #hipErrorOutOfMemory
   !>  
   !>    @see hipSetDeviceFlags, hipHostMalloc
   !>  
@@ -429,7 +429,7 @@ module hipfort_hiphostregister
   !>  
   !>    @param[out] flagsPtr Memory location to store flags
   !>    @param[in]  hostPtr Host Pointer allocated through hipHostMalloc
-  !>    @return hipSuccess, hipErrorInvalidValue
+  !>    @return #hipSuccess, #hipErrorInvalidValue
   !>  
   !>    @see hipHostMalloc
   !>  
@@ -515,7 +515,6 @@ module hipfort_hiphostregister
 #endif
   end interface
 
-#ifdef USE_FPOINTER_INTERFACES
 contains 
      
                                         
@@ -526,7 +525,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),target,intent(in) :: hostPtr
+      logical,target,intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_l_0_nosize 
@@ -545,7 +544,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),target,dimension(:),intent(in) :: hostPtr
+      logical,target,dimension(:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_l_1_nosize 
@@ -564,7 +563,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:), intent(in) :: hostPtr
+      logical,pointer,dimension(:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1 
       integer(kind=4),intent(in) :: flags 
       !
@@ -585,7 +584,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:), intent(in) :: hostPtr
+      logical,pointer,dimension(:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1 
       integer(kind=4),intent(in) :: flags 
       !
@@ -606,7 +605,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),target,dimension(:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_l_2_nosize 
@@ -625,7 +624,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:), intent(in) :: hostPtr
+      logical,pointer,dimension(:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2 
       integer(kind=4),intent(in) :: flags 
       !
@@ -646,7 +645,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:), intent(in) :: hostPtr
+      logical,pointer,dimension(:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2 
       integer(kind=4),intent(in) :: flags 
       !
@@ -667,7 +666,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),target,dimension(:,:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_l_3_nosize 
@@ -686,7 +685,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:,:), intent(in) :: hostPtr
+      logical,pointer,dimension(:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3 
       integer(kind=4),intent(in) :: flags 
       !
@@ -707,7 +706,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:,:), intent(in) :: hostPtr
+      logical,pointer,dimension(:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3 
       integer(kind=4),intent(in) :: flags 
       !
@@ -728,7 +727,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_l_4_nosize 
@@ -747,7 +746,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
+      logical,pointer,dimension(:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4 
       integer(kind=4),intent(in) :: flags 
       !
@@ -768,7 +767,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
+      logical,pointer,dimension(:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4 
       integer(kind=4),intent(in) :: flags 
       !
@@ -789,7 +788,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_l_5_nosize 
@@ -808,7 +807,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
+      logical,pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5 
       integer(kind=4),intent(in) :: flags 
       !
@@ -829,7 +828,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
+      logical,pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5 
       integer(kind=4),intent(in) :: flags 
       !
@@ -850,7 +849,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_l_6_nosize 
@@ -869,7 +868,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
+      logical,pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5,length6 
       integer(kind=4),intent(in) :: flags 
       !
@@ -890,7 +889,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
+      logical,pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5,length6 
       integer(kind=4),intent(in) :: flags 
       !
@@ -911,7 +910,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_l_7_nosize 
@@ -930,7 +929,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
+      logical,pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5,length6,length7 
       integer(kind=4),intent(in) :: flags 
       !
@@ -951,7 +950,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
+      logical,pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5,length6,length7 
       integer(kind=4),intent(in) :: flags 
       !
@@ -972,7 +971,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),target,intent(in) :: hostPtr
+      integer(4),target,intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_i4_0_nosize 
@@ -991,7 +990,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),target,dimension(:),intent(in) :: hostPtr
+      integer(4),target,dimension(:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_i4_1_nosize 
@@ -1010,7 +1009,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:), intent(in) :: hostPtr
+      integer(4),pointer,dimension(:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1031,7 +1030,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:), intent(in) :: hostPtr
+      integer(4),pointer,dimension(:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1052,7 +1051,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),target,dimension(:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_i4_2_nosize 
@@ -1071,7 +1070,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:), intent(in) :: hostPtr
+      integer(4),pointer,dimension(:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1092,7 +1091,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:), intent(in) :: hostPtr
+      integer(4),pointer,dimension(:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1113,7 +1112,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),target,dimension(:,:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_i4_3_nosize 
@@ -1132,7 +1131,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:,:), intent(in) :: hostPtr
+      integer(4),pointer,dimension(:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1153,7 +1152,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:,:), intent(in) :: hostPtr
+      integer(4),pointer,dimension(:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1174,7 +1173,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_i4_4_nosize 
@@ -1193,7 +1192,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
+      integer(4),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1214,7 +1213,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
+      integer(4),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1235,7 +1234,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_i4_5_nosize 
@@ -1254,7 +1253,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
+      integer(4),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1275,7 +1274,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
+      integer(4),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1296,7 +1295,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_i4_6_nosize 
@@ -1315,7 +1314,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
+      integer(4),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5,length6 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1336,7 +1335,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
+      integer(4),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5,length6 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1357,7 +1356,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_i4_7_nosize 
@@ -1376,7 +1375,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
+      integer(4),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5,length6,length7 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1397,7 +1396,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
+      integer(4),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5,length6,length7 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1418,7 +1417,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),target,intent(in) :: hostPtr
+      integer(8),target,intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_i8_0_nosize 
@@ -1437,7 +1436,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),target,dimension(:),intent(in) :: hostPtr
+      integer(8),target,dimension(:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_i8_1_nosize 
@@ -1456,7 +1455,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:), intent(in) :: hostPtr
+      integer(8),pointer,dimension(:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1477,7 +1476,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:), intent(in) :: hostPtr
+      integer(8),pointer,dimension(:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1498,7 +1497,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),target,dimension(:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_i8_2_nosize 
@@ -1517,7 +1516,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:), intent(in) :: hostPtr
+      integer(8),pointer,dimension(:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1538,7 +1537,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:), intent(in) :: hostPtr
+      integer(8),pointer,dimension(:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1559,7 +1558,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),target,dimension(:,:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_i8_3_nosize 
@@ -1578,7 +1577,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:,:), intent(in) :: hostPtr
+      integer(8),pointer,dimension(:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1599,7 +1598,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:,:), intent(in) :: hostPtr
+      integer(8),pointer,dimension(:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1620,7 +1619,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_i8_4_nosize 
@@ -1639,7 +1638,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
+      integer(8),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1660,7 +1659,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
+      integer(8),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1681,7 +1680,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_i8_5_nosize 
@@ -1700,7 +1699,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
+      integer(8),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1721,7 +1720,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
+      integer(8),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1742,7 +1741,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_i8_6_nosize 
@@ -1761,7 +1760,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
+      integer(8),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5,length6 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1782,7 +1781,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
+      integer(8),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5,length6 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1803,7 +1802,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_i8_7_nosize 
@@ -1822,7 +1821,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
+      integer(8),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5,length6,length7 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1843,7 +1842,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
+      integer(8),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5,length6,length7 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1864,7 +1863,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),target,intent(in) :: hostPtr
+      real(4),target,intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_r4_0_nosize 
@@ -1883,7 +1882,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),target,dimension(:),intent(in) :: hostPtr
+      real(4),target,dimension(:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_r4_1_nosize 
@@ -1902,7 +1901,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:), intent(in) :: hostPtr
+      real(4),pointer,dimension(:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1923,7 +1922,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:), intent(in) :: hostPtr
+      real(4),pointer,dimension(:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1944,7 +1943,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),target,dimension(:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_r4_2_nosize 
@@ -1963,7 +1962,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:), intent(in) :: hostPtr
+      real(4),pointer,dimension(:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2 
       integer(kind=4),intent(in) :: flags 
       !
@@ -1984,7 +1983,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:), intent(in) :: hostPtr
+      real(4),pointer,dimension(:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2005,7 +2004,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),target,dimension(:,:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_r4_3_nosize 
@@ -2024,7 +2023,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:,:), intent(in) :: hostPtr
+      real(4),pointer,dimension(:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2045,7 +2044,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:,:), intent(in) :: hostPtr
+      real(4),pointer,dimension(:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2066,7 +2065,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_r4_4_nosize 
@@ -2085,7 +2084,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
+      real(4),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2106,7 +2105,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
+      real(4),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2127,7 +2126,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_r4_5_nosize 
@@ -2146,7 +2145,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
+      real(4),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2167,7 +2166,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
+      real(4),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2188,7 +2187,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_r4_6_nosize 
@@ -2207,7 +2206,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
+      real(4),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5,length6 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2228,7 +2227,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
+      real(4),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5,length6 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2249,7 +2248,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_r4_7_nosize 
@@ -2268,7 +2267,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
+      real(4),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5,length6,length7 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2289,7 +2288,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
+      real(4),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5,length6,length7 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2310,7 +2309,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),target,intent(in) :: hostPtr
+      real(8),target,intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_r8_0_nosize 
@@ -2329,7 +2328,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),target,dimension(:),intent(in) :: hostPtr
+      real(8),target,dimension(:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_r8_1_nosize 
@@ -2348,7 +2347,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:), intent(in) :: hostPtr
+      real(8),pointer,dimension(:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2369,7 +2368,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:), intent(in) :: hostPtr
+      real(8),pointer,dimension(:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2390,7 +2389,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),target,dimension(:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_r8_2_nosize 
@@ -2409,7 +2408,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:), intent(in) :: hostPtr
+      real(8),pointer,dimension(:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2430,7 +2429,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:), intent(in) :: hostPtr
+      real(8),pointer,dimension(:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2451,7 +2450,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),target,dimension(:,:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_r8_3_nosize 
@@ -2470,7 +2469,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:,:), intent(in) :: hostPtr
+      real(8),pointer,dimension(:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2491,7 +2490,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:,:), intent(in) :: hostPtr
+      real(8),pointer,dimension(:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2512,7 +2511,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_r8_4_nosize 
@@ -2531,7 +2530,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
+      real(8),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2552,7 +2551,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
+      real(8),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2573,7 +2572,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_r8_5_nosize 
@@ -2592,7 +2591,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
+      real(8),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2613,7 +2612,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
+      real(8),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2634,7 +2633,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_r8_6_nosize 
@@ -2653,7 +2652,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
+      real(8),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5,length6 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2674,7 +2673,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
+      real(8),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5,length6 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2695,7 +2694,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_r8_7_nosize 
@@ -2714,7 +2713,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
+      real(8),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5,length6,length7 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2735,7 +2734,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
+      real(8),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5,length6,length7 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2756,7 +2755,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),target,intent(in) :: hostPtr
+      complex(4),target,intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_c4_0_nosize 
@@ -2775,7 +2774,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),target,dimension(:),intent(in) :: hostPtr
+      complex(4),target,dimension(:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_c4_1_nosize 
@@ -2794,7 +2793,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:), intent(in) :: hostPtr
+      complex(4),pointer,dimension(:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2815,7 +2814,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:), intent(in) :: hostPtr
+      complex(4),pointer,dimension(:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2836,7 +2835,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),target,dimension(:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_c4_2_nosize 
@@ -2855,7 +2854,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:), intent(in) :: hostPtr
+      complex(4),pointer,dimension(:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2876,7 +2875,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:), intent(in) :: hostPtr
+      complex(4),pointer,dimension(:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2897,7 +2896,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),target,dimension(:,:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_c4_3_nosize 
@@ -2916,7 +2915,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:,:), intent(in) :: hostPtr
+      complex(4),pointer,dimension(:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2937,7 +2936,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:,:), intent(in) :: hostPtr
+      complex(4),pointer,dimension(:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2958,7 +2957,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_c4_4_nosize 
@@ -2977,7 +2976,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
+      complex(4),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4 
       integer(kind=4),intent(in) :: flags 
       !
@@ -2998,7 +2997,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
+      complex(4),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3019,7 +3018,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_c4_5_nosize 
@@ -3038,7 +3037,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
+      complex(4),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3059,7 +3058,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
+      complex(4),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3080,7 +3079,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_c4_6_nosize 
@@ -3099,7 +3098,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
+      complex(4),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5,length6 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3120,7 +3119,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
+      complex(4),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5,length6 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3141,7 +3140,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_c4_7_nosize 
@@ -3160,7 +3159,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
+      complex(4),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5,length6,length7 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3181,7 +3180,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
+      complex(4),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5,length6,length7 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3202,7 +3201,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),target,intent(in) :: hostPtr
+      complex(8),target,intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_c8_0_nosize 
@@ -3221,7 +3220,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),target,dimension(:),intent(in) :: hostPtr
+      complex(8),target,dimension(:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_c8_1_nosize 
@@ -3240,7 +3239,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:), intent(in) :: hostPtr
+      complex(8),pointer,dimension(:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3261,7 +3260,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:), intent(in) :: hostPtr
+      complex(8),pointer,dimension(:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3282,7 +3281,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),target,dimension(:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_c8_2_nosize 
@@ -3301,7 +3300,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:), intent(in) :: hostPtr
+      complex(8),pointer,dimension(:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3322,7 +3321,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:), intent(in) :: hostPtr
+      complex(8),pointer,dimension(:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3343,7 +3342,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),target,dimension(:,:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_c8_3_nosize 
@@ -3362,7 +3361,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:,:), intent(in) :: hostPtr
+      complex(8),pointer,dimension(:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3383,7 +3382,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:,:), intent(in) :: hostPtr
+      complex(8),pointer,dimension(:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3404,7 +3403,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_c8_4_nosize 
@@ -3423,7 +3422,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
+      complex(8),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3444,7 +3443,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
+      complex(8),pointer,dimension(:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3465,7 +3464,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_c8_5_nosize 
@@ -3484,7 +3483,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
+      complex(8),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3505,7 +3504,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
+      complex(8),pointer,dimension(:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3526,7 +3525,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_c8_6_nosize 
@@ -3545,7 +3544,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
+      complex(8),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5,length6 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3566,7 +3565,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
+      complex(8),pointer,dimension(:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5,length6 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3587,7 +3586,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
       integer(kind=4),intent(in) :: flags
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostRegister_c8_7_nosize 
@@ -3606,7 +3605,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
+      complex(8),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_int),intent(in) :: length1,length2,length3,length4,length5,length6,length7 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3627,7 +3626,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
+      complex(8),pointer,dimension(:,:,:,:,:,:,:), intent(in) :: hostPtr
       integer(c_size_t),intent(in) :: length1,length2,length3,length4,length5,length6,length7 
       integer(kind=4),intent(in) :: flags 
       !
@@ -3649,8 +3648,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,intent(inout) :: devPtr
-      logical(c_bool),target,intent(in) :: hstPtr
+      logical,pointer,intent(inout) :: devPtr
+      logical,target,intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_l_0 
@@ -3668,8 +3667,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:),intent(inout) :: devPtr
-      logical(c_bool),target,dimension(:),intent(in) :: hstPtr
+      logical,pointer,dimension(:),intent(inout) :: devPtr
+      logical,target,dimension(:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_l_1 
@@ -3687,8 +3686,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:),intent(inout) :: devPtr
-      logical(c_bool),target,dimension(:,:),intent(in) :: hstPtr
+      logical,pointer,dimension(:,:),intent(inout) :: devPtr
+      logical,target,dimension(:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_l_2 
@@ -3706,8 +3705,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:,:),intent(inout) :: devPtr
-      logical(c_bool),target,dimension(:,:,:),intent(in) :: hstPtr
+      logical,pointer,dimension(:,:,:),intent(inout) :: devPtr
+      logical,target,dimension(:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_l_3 
@@ -3725,8 +3724,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:,:,:),intent(inout) :: devPtr
-      logical(c_bool),target,dimension(:,:,:,:),intent(in) :: hstPtr
+      logical,pointer,dimension(:,:,:,:),intent(inout) :: devPtr
+      logical,target,dimension(:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_l_4 
@@ -3744,8 +3743,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:,:,:,:),intent(inout) :: devPtr
-      logical(c_bool),target,dimension(:,:,:,:,:),intent(in) :: hstPtr
+      logical,pointer,dimension(:,:,:,:,:),intent(inout) :: devPtr
+      logical,target,dimension(:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_l_5 
@@ -3763,8 +3762,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:,:,:,:,:),intent(inout) :: devPtr
-      logical(c_bool),target,dimension(:,:,:,:,:,:),intent(in) :: hstPtr
+      logical,pointer,dimension(:,:,:,:,:,:),intent(inout) :: devPtr
+      logical,target,dimension(:,:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_l_6 
@@ -3782,8 +3781,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),pointer,dimension(:,:,:,:,:,:,:),intent(inout) :: devPtr
-      logical(c_bool),target,dimension(:,:,:,:,:,:,:),intent(in) :: hstPtr
+      logical,pointer,dimension(:,:,:,:,:,:,:),intent(inout) :: devPtr
+      logical,target,dimension(:,:,:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_l_7 
@@ -3801,8 +3800,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,intent(inout) :: devPtr
-      integer(c_int),target,intent(in) :: hstPtr
+      integer(4),pointer,intent(inout) :: devPtr
+      integer(4),target,intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_i4_0 
@@ -3820,8 +3819,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:),intent(inout) :: devPtr
-      integer(c_int),target,dimension(:),intent(in) :: hstPtr
+      integer(4),pointer,dimension(:),intent(inout) :: devPtr
+      integer(4),target,dimension(:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_i4_1 
@@ -3839,8 +3838,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:),intent(inout) :: devPtr
-      integer(c_int),target,dimension(:,:),intent(in) :: hstPtr
+      integer(4),pointer,dimension(:,:),intent(inout) :: devPtr
+      integer(4),target,dimension(:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_i4_2 
@@ -3858,8 +3857,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:,:),intent(inout) :: devPtr
-      integer(c_int),target,dimension(:,:,:),intent(in) :: hstPtr
+      integer(4),pointer,dimension(:,:,:),intent(inout) :: devPtr
+      integer(4),target,dimension(:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_i4_3 
@@ -3877,8 +3876,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:,:,:),intent(inout) :: devPtr
-      integer(c_int),target,dimension(:,:,:,:),intent(in) :: hstPtr
+      integer(4),pointer,dimension(:,:,:,:),intent(inout) :: devPtr
+      integer(4),target,dimension(:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_i4_4 
@@ -3896,8 +3895,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:,:,:,:),intent(inout) :: devPtr
-      integer(c_int),target,dimension(:,:,:,:,:),intent(in) :: hstPtr
+      integer(4),pointer,dimension(:,:,:,:,:),intent(inout) :: devPtr
+      integer(4),target,dimension(:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_i4_5 
@@ -3915,8 +3914,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:,:,:,:,:),intent(inout) :: devPtr
-      integer(c_int),target,dimension(:,:,:,:,:,:),intent(in) :: hstPtr
+      integer(4),pointer,dimension(:,:,:,:,:,:),intent(inout) :: devPtr
+      integer(4),target,dimension(:,:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_i4_6 
@@ -3934,8 +3933,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),pointer,dimension(:,:,:,:,:,:,:),intent(inout) :: devPtr
-      integer(c_int),target,dimension(:,:,:,:,:,:,:),intent(in) :: hstPtr
+      integer(4),pointer,dimension(:,:,:,:,:,:,:),intent(inout) :: devPtr
+      integer(4),target,dimension(:,:,:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_i4_7 
@@ -3953,8 +3952,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,intent(inout) :: devPtr
-      integer(c_long),target,intent(in) :: hstPtr
+      integer(8),pointer,intent(inout) :: devPtr
+      integer(8),target,intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_i8_0 
@@ -3972,8 +3971,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:),intent(inout) :: devPtr
-      integer(c_long),target,dimension(:),intent(in) :: hstPtr
+      integer(8),pointer,dimension(:),intent(inout) :: devPtr
+      integer(8),target,dimension(:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_i8_1 
@@ -3991,8 +3990,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:),intent(inout) :: devPtr
-      integer(c_long),target,dimension(:,:),intent(in) :: hstPtr
+      integer(8),pointer,dimension(:,:),intent(inout) :: devPtr
+      integer(8),target,dimension(:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_i8_2 
@@ -4010,8 +4009,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:,:),intent(inout) :: devPtr
-      integer(c_long),target,dimension(:,:,:),intent(in) :: hstPtr
+      integer(8),pointer,dimension(:,:,:),intent(inout) :: devPtr
+      integer(8),target,dimension(:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_i8_3 
@@ -4029,8 +4028,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:,:,:),intent(inout) :: devPtr
-      integer(c_long),target,dimension(:,:,:,:),intent(in) :: hstPtr
+      integer(8),pointer,dimension(:,:,:,:),intent(inout) :: devPtr
+      integer(8),target,dimension(:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_i8_4 
@@ -4048,8 +4047,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:,:,:,:),intent(inout) :: devPtr
-      integer(c_long),target,dimension(:,:,:,:,:),intent(in) :: hstPtr
+      integer(8),pointer,dimension(:,:,:,:,:),intent(inout) :: devPtr
+      integer(8),target,dimension(:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_i8_5 
@@ -4067,8 +4066,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:,:,:,:,:),intent(inout) :: devPtr
-      integer(c_long),target,dimension(:,:,:,:,:,:),intent(in) :: hstPtr
+      integer(8),pointer,dimension(:,:,:,:,:,:),intent(inout) :: devPtr
+      integer(8),target,dimension(:,:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_i8_6 
@@ -4086,8 +4085,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),pointer,dimension(:,:,:,:,:,:,:),intent(inout) :: devPtr
-      integer(c_long),target,dimension(:,:,:,:,:,:,:),intent(in) :: hstPtr
+      integer(8),pointer,dimension(:,:,:,:,:,:,:),intent(inout) :: devPtr
+      integer(8),target,dimension(:,:,:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_i8_7 
@@ -4105,8 +4104,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,intent(inout) :: devPtr
-      real(c_float),target,intent(in) :: hstPtr
+      real(4),pointer,intent(inout) :: devPtr
+      real(4),target,intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_r4_0 
@@ -4124,8 +4123,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:),intent(inout) :: devPtr
-      real(c_float),target,dimension(:),intent(in) :: hstPtr
+      real(4),pointer,dimension(:),intent(inout) :: devPtr
+      real(4),target,dimension(:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_r4_1 
@@ -4143,8 +4142,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:),intent(inout) :: devPtr
-      real(c_float),target,dimension(:,:),intent(in) :: hstPtr
+      real(4),pointer,dimension(:,:),intent(inout) :: devPtr
+      real(4),target,dimension(:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_r4_2 
@@ -4162,8 +4161,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:,:),intent(inout) :: devPtr
-      real(c_float),target,dimension(:,:,:),intent(in) :: hstPtr
+      real(4),pointer,dimension(:,:,:),intent(inout) :: devPtr
+      real(4),target,dimension(:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_r4_3 
@@ -4181,8 +4180,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:,:,:),intent(inout) :: devPtr
-      real(c_float),target,dimension(:,:,:,:),intent(in) :: hstPtr
+      real(4),pointer,dimension(:,:,:,:),intent(inout) :: devPtr
+      real(4),target,dimension(:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_r4_4 
@@ -4200,8 +4199,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:,:,:,:),intent(inout) :: devPtr
-      real(c_float),target,dimension(:,:,:,:,:),intent(in) :: hstPtr
+      real(4),pointer,dimension(:,:,:,:,:),intent(inout) :: devPtr
+      real(4),target,dimension(:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_r4_5 
@@ -4219,8 +4218,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:,:,:,:,:),intent(inout) :: devPtr
-      real(c_float),target,dimension(:,:,:,:,:,:),intent(in) :: hstPtr
+      real(4),pointer,dimension(:,:,:,:,:,:),intent(inout) :: devPtr
+      real(4),target,dimension(:,:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_r4_6 
@@ -4238,8 +4237,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),pointer,dimension(:,:,:,:,:,:,:),intent(inout) :: devPtr
-      real(c_float),target,dimension(:,:,:,:,:,:,:),intent(in) :: hstPtr
+      real(4),pointer,dimension(:,:,:,:,:,:,:),intent(inout) :: devPtr
+      real(4),target,dimension(:,:,:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_r4_7 
@@ -4257,8 +4256,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,intent(inout) :: devPtr
-      real(c_double),target,intent(in) :: hstPtr
+      real(8),pointer,intent(inout) :: devPtr
+      real(8),target,intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_r8_0 
@@ -4276,8 +4275,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:),intent(inout) :: devPtr
-      real(c_double),target,dimension(:),intent(in) :: hstPtr
+      real(8),pointer,dimension(:),intent(inout) :: devPtr
+      real(8),target,dimension(:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_r8_1 
@@ -4295,8 +4294,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:),intent(inout) :: devPtr
-      real(c_double),target,dimension(:,:),intent(in) :: hstPtr
+      real(8),pointer,dimension(:,:),intent(inout) :: devPtr
+      real(8),target,dimension(:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_r8_2 
@@ -4314,8 +4313,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:,:),intent(inout) :: devPtr
-      real(c_double),target,dimension(:,:,:),intent(in) :: hstPtr
+      real(8),pointer,dimension(:,:,:),intent(inout) :: devPtr
+      real(8),target,dimension(:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_r8_3 
@@ -4333,8 +4332,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:,:,:),intent(inout) :: devPtr
-      real(c_double),target,dimension(:,:,:,:),intent(in) :: hstPtr
+      real(8),pointer,dimension(:,:,:,:),intent(inout) :: devPtr
+      real(8),target,dimension(:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_r8_4 
@@ -4352,8 +4351,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:,:,:,:),intent(inout) :: devPtr
-      real(c_double),target,dimension(:,:,:,:,:),intent(in) :: hstPtr
+      real(8),pointer,dimension(:,:,:,:,:),intent(inout) :: devPtr
+      real(8),target,dimension(:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_r8_5 
@@ -4371,8 +4370,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:,:,:,:,:),intent(inout) :: devPtr
-      real(c_double),target,dimension(:,:,:,:,:,:),intent(in) :: hstPtr
+      real(8),pointer,dimension(:,:,:,:,:,:),intent(inout) :: devPtr
+      real(8),target,dimension(:,:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_r8_6 
@@ -4390,8 +4389,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),pointer,dimension(:,:,:,:,:,:,:),intent(inout) :: devPtr
-      real(c_double),target,dimension(:,:,:,:,:,:,:),intent(in) :: hstPtr
+      real(8),pointer,dimension(:,:,:,:,:,:,:),intent(inout) :: devPtr
+      real(8),target,dimension(:,:,:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_r8_7 
@@ -4409,8 +4408,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,intent(inout) :: devPtr
-      complex(c_float_complex),target,intent(in) :: hstPtr
+      complex(4),pointer,intent(inout) :: devPtr
+      complex(4),target,intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_c4_0 
@@ -4428,8 +4427,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:),intent(inout) :: devPtr
-      complex(c_float_complex),target,dimension(:),intent(in) :: hstPtr
+      complex(4),pointer,dimension(:),intent(inout) :: devPtr
+      complex(4),target,dimension(:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_c4_1 
@@ -4447,8 +4446,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:),intent(inout) :: devPtr
-      complex(c_float_complex),target,dimension(:,:),intent(in) :: hstPtr
+      complex(4),pointer,dimension(:,:),intent(inout) :: devPtr
+      complex(4),target,dimension(:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_c4_2 
@@ -4466,8 +4465,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:,:),intent(inout) :: devPtr
-      complex(c_float_complex),target,dimension(:,:,:),intent(in) :: hstPtr
+      complex(4),pointer,dimension(:,:,:),intent(inout) :: devPtr
+      complex(4),target,dimension(:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_c4_3 
@@ -4485,8 +4484,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:,:,:),intent(inout) :: devPtr
-      complex(c_float_complex),target,dimension(:,:,:,:),intent(in) :: hstPtr
+      complex(4),pointer,dimension(:,:,:,:),intent(inout) :: devPtr
+      complex(4),target,dimension(:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_c4_4 
@@ -4504,8 +4503,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:,:,:,:),intent(inout) :: devPtr
-      complex(c_float_complex),target,dimension(:,:,:,:,:),intent(in) :: hstPtr
+      complex(4),pointer,dimension(:,:,:,:,:),intent(inout) :: devPtr
+      complex(4),target,dimension(:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_c4_5 
@@ -4523,8 +4522,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:,:,:,:,:),intent(inout) :: devPtr
-      complex(c_float_complex),target,dimension(:,:,:,:,:,:),intent(in) :: hstPtr
+      complex(4),pointer,dimension(:,:,:,:,:,:),intent(inout) :: devPtr
+      complex(4),target,dimension(:,:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_c4_6 
@@ -4542,8 +4541,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),pointer,dimension(:,:,:,:,:,:,:),intent(inout) :: devPtr
-      complex(c_float_complex),target,dimension(:,:,:,:,:,:,:),intent(in) :: hstPtr
+      complex(4),pointer,dimension(:,:,:,:,:,:,:),intent(inout) :: devPtr
+      complex(4),target,dimension(:,:,:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_c4_7 
@@ -4561,8 +4560,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,intent(inout) :: devPtr
-      complex(c_double_complex),target,intent(in) :: hstPtr
+      complex(8),pointer,intent(inout) :: devPtr
+      complex(8),target,intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_c8_0 
@@ -4580,8 +4579,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:),intent(inout) :: devPtr
-      complex(c_double_complex),target,dimension(:),intent(in) :: hstPtr
+      complex(8),pointer,dimension(:),intent(inout) :: devPtr
+      complex(8),target,dimension(:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_c8_1 
@@ -4599,8 +4598,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:),intent(inout) :: devPtr
-      complex(c_double_complex),target,dimension(:,:),intent(in) :: hstPtr
+      complex(8),pointer,dimension(:,:),intent(inout) :: devPtr
+      complex(8),target,dimension(:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_c8_2 
@@ -4618,8 +4617,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:,:),intent(inout) :: devPtr
-      complex(c_double_complex),target,dimension(:,:,:),intent(in) :: hstPtr
+      complex(8),pointer,dimension(:,:,:),intent(inout) :: devPtr
+      complex(8),target,dimension(:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_c8_3 
@@ -4637,8 +4636,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:,:,:),intent(inout) :: devPtr
-      complex(c_double_complex),target,dimension(:,:,:,:),intent(in) :: hstPtr
+      complex(8),pointer,dimension(:,:,:,:),intent(inout) :: devPtr
+      complex(8),target,dimension(:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_c8_4 
@@ -4656,8 +4655,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:,:,:,:),intent(inout) :: devPtr
-      complex(c_double_complex),target,dimension(:,:,:,:,:),intent(in) :: hstPtr
+      complex(8),pointer,dimension(:,:,:,:,:),intent(inout) :: devPtr
+      complex(8),target,dimension(:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_c8_5 
@@ -4675,8 +4674,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:,:,:,:,:),intent(inout) :: devPtr
-      complex(c_double_complex),target,dimension(:,:,:,:,:,:),intent(in) :: hstPtr
+      complex(8),pointer,dimension(:,:,:,:,:,:),intent(inout) :: devPtr
+      complex(8),target,dimension(:,:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_c8_6 
@@ -4694,8 +4693,8 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),pointer,dimension(:,:,:,:,:,:,:),intent(inout) :: devPtr
-      complex(c_double_complex),target,dimension(:,:,:,:,:,:,:),intent(in) :: hstPtr
+      complex(8),pointer,dimension(:,:,:,:,:,:,:),intent(inout) :: devPtr
+      complex(8),target,dimension(:,:,:,:,:,:,:),intent(in) :: hstPtr
       integer(kind=4),intent(in) :: flags 
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetDevicePointer_c8_7 
@@ -4715,7 +4714,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      logical(c_bool),target,intent(in) :: hostPtr
+      logical,target,intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_l_0 
 #else
@@ -4733,7 +4732,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      logical(c_bool),target,dimension(:),intent(in) :: hostPtr
+      logical,target,dimension(:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_l_1 
 #else
@@ -4751,7 +4750,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      logical(c_bool),target,dimension(:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_l_2 
 #else
@@ -4769,7 +4768,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      logical(c_bool),target,dimension(:,:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_l_3 
 #else
@@ -4787,7 +4786,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      logical(c_bool),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_l_4 
 #else
@@ -4805,7 +4804,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      logical(c_bool),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_l_5 
 #else
@@ -4823,7 +4822,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      logical(c_bool),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_l_6 
 #else
@@ -4841,7 +4840,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      logical(c_bool),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_l_7 
 #else
@@ -4859,7 +4858,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      integer(c_int),target,intent(in) :: hostPtr
+      integer(4),target,intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_i4_0 
 #else
@@ -4877,7 +4876,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      integer(c_int),target,dimension(:),intent(in) :: hostPtr
+      integer(4),target,dimension(:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_i4_1 
 #else
@@ -4895,7 +4894,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      integer(c_int),target,dimension(:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_i4_2 
 #else
@@ -4913,7 +4912,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      integer(c_int),target,dimension(:,:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_i4_3 
 #else
@@ -4931,7 +4930,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      integer(c_int),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_i4_4 
 #else
@@ -4949,7 +4948,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      integer(c_int),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_i4_5 
 #else
@@ -4967,7 +4966,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      integer(c_int),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_i4_6 
 #else
@@ -4985,7 +4984,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      integer(c_int),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_i4_7 
 #else
@@ -5003,7 +5002,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      integer(c_long),target,intent(in) :: hostPtr
+      integer(8),target,intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_i8_0 
 #else
@@ -5021,7 +5020,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      integer(c_long),target,dimension(:),intent(in) :: hostPtr
+      integer(8),target,dimension(:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_i8_1 
 #else
@@ -5039,7 +5038,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      integer(c_long),target,dimension(:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_i8_2 
 #else
@@ -5057,7 +5056,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      integer(c_long),target,dimension(:,:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_i8_3 
 #else
@@ -5075,7 +5074,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      integer(c_long),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_i8_4 
 #else
@@ -5093,7 +5092,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      integer(c_long),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_i8_5 
 #else
@@ -5111,7 +5110,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      integer(c_long),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_i8_6 
 #else
@@ -5129,7 +5128,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      integer(c_long),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_i8_7 
 #else
@@ -5147,7 +5146,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      real(c_float),target,intent(in) :: hostPtr
+      real(4),target,intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_r4_0 
 #else
@@ -5165,7 +5164,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      real(c_float),target,dimension(:),intent(in) :: hostPtr
+      real(4),target,dimension(:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_r4_1 
 #else
@@ -5183,7 +5182,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      real(c_float),target,dimension(:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_r4_2 
 #else
@@ -5201,7 +5200,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      real(c_float),target,dimension(:,:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_r4_3 
 #else
@@ -5219,7 +5218,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      real(c_float),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_r4_4 
 #else
@@ -5237,7 +5236,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      real(c_float),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_r4_5 
 #else
@@ -5255,7 +5254,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      real(c_float),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_r4_6 
 #else
@@ -5273,7 +5272,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      real(c_float),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_r4_7 
 #else
@@ -5291,7 +5290,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      real(c_double),target,intent(in) :: hostPtr
+      real(8),target,intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_r8_0 
 #else
@@ -5309,7 +5308,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      real(c_double),target,dimension(:),intent(in) :: hostPtr
+      real(8),target,dimension(:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_r8_1 
 #else
@@ -5327,7 +5326,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      real(c_double),target,dimension(:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_r8_2 
 #else
@@ -5345,7 +5344,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      real(c_double),target,dimension(:,:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_r8_3 
 #else
@@ -5363,7 +5362,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      real(c_double),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_r8_4 
 #else
@@ -5381,7 +5380,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      real(c_double),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_r8_5 
 #else
@@ -5399,7 +5398,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      real(c_double),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_r8_6 
 #else
@@ -5417,7 +5416,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      real(c_double),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_r8_7 
 #else
@@ -5435,7 +5434,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      complex(c_float_complex),target,intent(in) :: hostPtr
+      complex(4),target,intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_c4_0 
 #else
@@ -5453,7 +5452,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      complex(c_float_complex),target,dimension(:),intent(in) :: hostPtr
+      complex(4),target,dimension(:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_c4_1 
 #else
@@ -5471,7 +5470,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      complex(c_float_complex),target,dimension(:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_c4_2 
 #else
@@ -5489,7 +5488,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      complex(c_float_complex),target,dimension(:,:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_c4_3 
 #else
@@ -5507,7 +5506,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      complex(c_float_complex),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_c4_4 
 #else
@@ -5525,7 +5524,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      complex(c_float_complex),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_c4_5 
 #else
@@ -5543,7 +5542,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      complex(c_float_complex),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_c4_6 
 #else
@@ -5561,7 +5560,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      complex(c_float_complex),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_c4_7 
 #else
@@ -5579,7 +5578,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      complex(c_double_complex),target,intent(in) :: hostPtr
+      complex(8),target,intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_c8_0 
 #else
@@ -5597,7 +5596,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      complex(c_double_complex),target,dimension(:),intent(in) :: hostPtr
+      complex(8),target,dimension(:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_c8_1 
 #else
@@ -5615,7 +5614,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      complex(c_double_complex),target,dimension(:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_c8_2 
 #else
@@ -5633,7 +5632,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      complex(c_double_complex),target,dimension(:,:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_c8_3 
 #else
@@ -5651,7 +5650,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      complex(c_double_complex),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_c8_4 
 #else
@@ -5669,7 +5668,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      complex(c_double_complex),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_c8_5 
 #else
@@ -5687,7 +5686,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      complex(c_double_complex),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_c8_6 
 #else
@@ -5705,7 +5704,7 @@ contains
       use hipfort_enums
       implicit none
       integer(kind=4),intent(out) :: flagsPtr
-      complex(c_double_complex),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostGetFlags_c8_7 
 #else
@@ -5723,7 +5722,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),target,intent(in) :: hostPtr
+      logical,target,intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_l_0 
 #else
@@ -5740,7 +5739,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),target,dimension(:),intent(in) :: hostPtr
+      logical,target,dimension(:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_l_1 
 #else
@@ -5757,7 +5756,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),target,dimension(:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_l_2 
 #else
@@ -5774,7 +5773,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),target,dimension(:,:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_l_3 
 #else
@@ -5791,7 +5790,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_l_4 
 #else
@@ -5808,7 +5807,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_l_5 
 #else
@@ -5825,7 +5824,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_l_6 
 #else
@@ -5842,7 +5841,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      logical(c_bool),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      logical,target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_l_7 
 #else
@@ -5859,7 +5858,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),target,intent(in) :: hostPtr
+      integer(4),target,intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_i4_0 
 #else
@@ -5876,7 +5875,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),target,dimension(:),intent(in) :: hostPtr
+      integer(4),target,dimension(:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_i4_1 
 #else
@@ -5893,7 +5892,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),target,dimension(:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_i4_2 
 #else
@@ -5910,7 +5909,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),target,dimension(:,:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_i4_3 
 #else
@@ -5927,7 +5926,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_i4_4 
 #else
@@ -5944,7 +5943,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_i4_5 
 #else
@@ -5961,7 +5960,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_i4_6 
 #else
@@ -5978,7 +5977,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_int),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      integer(4),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_i4_7 
 #else
@@ -5995,7 +5994,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),target,intent(in) :: hostPtr
+      integer(8),target,intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_i8_0 
 #else
@@ -6012,7 +6011,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),target,dimension(:),intent(in) :: hostPtr
+      integer(8),target,dimension(:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_i8_1 
 #else
@@ -6029,7 +6028,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),target,dimension(:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_i8_2 
 #else
@@ -6046,7 +6045,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),target,dimension(:,:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_i8_3 
 #else
@@ -6063,7 +6062,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_i8_4 
 #else
@@ -6080,7 +6079,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_i8_5 
 #else
@@ -6097,7 +6096,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_i8_6 
 #else
@@ -6114,7 +6113,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      integer(c_long),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      integer(8),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_i8_7 
 #else
@@ -6131,7 +6130,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),target,intent(in) :: hostPtr
+      real(4),target,intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_r4_0 
 #else
@@ -6148,7 +6147,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),target,dimension(:),intent(in) :: hostPtr
+      real(4),target,dimension(:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_r4_1 
 #else
@@ -6165,7 +6164,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),target,dimension(:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_r4_2 
 #else
@@ -6182,7 +6181,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),target,dimension(:,:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_r4_3 
 #else
@@ -6199,7 +6198,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_r4_4 
 #else
@@ -6216,7 +6215,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_r4_5 
 #else
@@ -6233,7 +6232,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_r4_6 
 #else
@@ -6250,7 +6249,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_float),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      real(4),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_r4_7 
 #else
@@ -6267,7 +6266,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),target,intent(in) :: hostPtr
+      real(8),target,intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_r8_0 
 #else
@@ -6284,7 +6283,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),target,dimension(:),intent(in) :: hostPtr
+      real(8),target,dimension(:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_r8_1 
 #else
@@ -6301,7 +6300,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),target,dimension(:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_r8_2 
 #else
@@ -6318,7 +6317,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),target,dimension(:,:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_r8_3 
 #else
@@ -6335,7 +6334,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_r8_4 
 #else
@@ -6352,7 +6351,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_r8_5 
 #else
@@ -6369,7 +6368,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_r8_6 
 #else
@@ -6386,7 +6385,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      real(c_double),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      real(8),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_r8_7 
 #else
@@ -6403,7 +6402,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),target,intent(in) :: hostPtr
+      complex(4),target,intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_c4_0 
 #else
@@ -6420,7 +6419,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),target,dimension(:),intent(in) :: hostPtr
+      complex(4),target,dimension(:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_c4_1 
 #else
@@ -6437,7 +6436,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),target,dimension(:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_c4_2 
 #else
@@ -6454,7 +6453,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),target,dimension(:,:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_c4_3 
 #else
@@ -6471,7 +6470,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_c4_4 
 #else
@@ -6488,7 +6487,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_c4_5 
 #else
@@ -6505,7 +6504,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_c4_6 
 #else
@@ -6522,7 +6521,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_float_complex),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      complex(4),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_c4_7 
 #else
@@ -6539,7 +6538,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),target,intent(in) :: hostPtr
+      complex(8),target,intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_c8_0 
 #else
@@ -6556,7 +6555,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),target,dimension(:),intent(in) :: hostPtr
+      complex(8),target,dimension(:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_c8_1 
 #else
@@ -6573,7 +6572,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),target,dimension(:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_c8_2 
 #else
@@ -6590,7 +6589,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),target,dimension(:,:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_c8_3 
 #else
@@ -6607,7 +6606,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),target,dimension(:,:,:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_c8_4 
 #else
@@ -6624,7 +6623,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_c8_5 
 #else
@@ -6641,7 +6640,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_c8_6 
 #else
@@ -6658,7 +6657,7 @@ contains
 #endif
       use hipfort_enums
       implicit none
-      complex(c_double_complex),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
+      complex(8),target,dimension(:,:,:,:,:,:,:),intent(in) :: hostPtr
 #ifdef USE_CUDA_NAMES
       integer(kind(cudaSuccess)) :: hipHostUnregister_c8_7 
 #else
@@ -6667,5 +6666,5 @@ contains
       !
       hipHostUnregister_c8_7 = hipHostUnregister_(c_loc(hostPtr))
     end function
-#endif 
+
 end module

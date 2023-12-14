@@ -2,7 +2,7 @@
 ! ==============================================================================
 ! hipfort: FORTRAN Interfaces for GPU kernels
 ! ==============================================================================
-! Copyright (c) 2020-2022 Advanced Micro Devices, Inc. All rights reserved.
+! Copyright (c) 2021 Advanced Micro Devices, Inc. All rights reserved.
 ! [MITx11 License]
 ! 
 ! Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -52,23 +52,6 @@ module hipfort_rocblas_enums
   end enum
 
   enum, bind(c)
-    enumerator :: rocblas_status_success = 0
-    enumerator :: rocblas_status_invalid_handle = 1
-    enumerator :: rocblas_status_not_implemented = 2
-    enumerator :: rocblas_status_invalid_pointer = 3
-    enumerator :: rocblas_status_invalid_size = 4
-    enumerator :: rocblas_status_memory_error = 5
-    enumerator :: rocblas_status_internal_error = 6
-    enumerator :: rocblas_status_perf_degraded = 7
-    enumerator :: rocblas_status_size_query_mismatch = 8
-    enumerator :: rocblas_status_size_increased = 9
-    enumerator :: rocblas_status_size_unchanged = 10
-    enumerator :: rocblas_status_invalid_value = 11
-    enumerator :: rocblas_status_continue = 12
-    enumerator :: rocblas_status_check_numerics_fail = 13
-  end enum
-
-  enum, bind(c)
     enumerator :: rocblas_datatype_f16_r = 150
     enumerator :: rocblas_datatype_f32_r = 151
     enumerator :: rocblas_datatype_f64_r = 152
@@ -85,6 +68,37 @@ module hipfort_rocblas_enums
     enumerator :: rocblas_datatype_u32_c = 167
     enumerator :: rocblas_datatype_bf16_r = 168
     enumerator :: rocblas_datatype_bf16_c = 169
+    enumerator :: rocblas_datatype_f8_r = 170
+    enumerator :: rocblas_datatype_bf8_r = 171
+    enumerator :: rocblas_datatype_invalid = 255
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocblas_compute_type_f32 = 300
+    enumerator :: rocblas_compute_type_f8_f8_f32 = 301
+    enumerator :: rocblas_compute_type_f8_bf8_f32 = 302
+    enumerator :: rocblas_compute_type_bf8_f8_f32 = 303
+    enumerator :: rocblas_compute_type_bf8_bf8_f32 = 304
+    enumerator :: rocblas_compute_type_invalid = 455
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocblas_status_success = 0
+    enumerator :: rocblas_status_invalid_handle = 1
+    enumerator :: rocblas_status_not_implemented = 2
+    enumerator :: rocblas_status_invalid_pointer = 3
+    enumerator :: rocblas_status_invalid_size = 4
+    enumerator :: rocblas_status_memory_error = 5
+    enumerator :: rocblas_status_internal_error = 6
+    enumerator :: rocblas_status_perf_degraded = 7
+    enumerator :: rocblas_status_size_query_mismatch = 8
+    enumerator :: rocblas_status_size_increased = 9
+    enumerator :: rocblas_status_size_unchanged = 10
+    enumerator :: rocblas_status_invalid_value = 11
+    enumerator :: rocblas_status_continue = 12
+    enumerator :: rocblas_status_check_numerics_fail = 13
+    enumerator :: rocblas_status_excluded_from_build = 14
+    enumerator :: rocblas_status_arch_mismatch = 15
   end enum
 
   enum, bind(c)
@@ -112,13 +126,21 @@ module hipfort_rocblas_enums
 
   enum, bind(c)
     enumerator :: rocblas_gemm_algo_standard = 0
+    enumerator :: rocblas_gemm_algo_solution_index = 1
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocblas_geam_ex_operation_min_plus = 0
+    enumerator :: rocblas_geam_ex_operation_plus_min = 1
   end enum
 
   enum, bind(c)
     enumerator :: rocblas_gemm_flags_none = 0
-    enumerator :: rocblas_gemm_flags_pack_int8x4 = 1
     enumerator :: rocblas_gemm_flags_use_cu_efficiency = 2
     enumerator :: rocblas_gemm_flags_fp16_alt_impl = 4
+    enumerator :: rocblas_gemm_flags_check_solution_index = 8
+    enumerator :: rocblas_gemm_flags_fp16_alt_impl_rnz = 16
+    enumerator :: rocblas_gemm_flags_stochastic_rounding = 32
   end enum
 
   enum, bind(c)
@@ -126,6 +148,11 @@ module hipfort_rocblas_enums
     enumerator :: rocblas_check_numerics_mode_info = 1
     enumerator :: rocblas_check_numerics_mode_warn = 2
     enumerator :: rocblas_check_numerics_mode_fail = 4
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocblas_default_math = 0
+    enumerator :: rocblas_xf32_xdl_math_op = 1
   end enum
 
  

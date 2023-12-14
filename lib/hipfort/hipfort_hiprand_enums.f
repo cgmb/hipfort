@@ -2,7 +2,7 @@
 ! ==============================================================================
 ! hipfort: FORTRAN Interfaces for GPU kernels
 ! ==============================================================================
-! Copyright (c) 2020-2022 Advanced Micro Devices, Inc. All rights reserved.
+! Copyright (c) 2021 Advanced Micro Devices, Inc. All rights reserved.
 ! [MITx11 License]
 ! 
 ! Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -58,6 +58,13 @@ module hipfort_hiprand_enums
     enumerator :: HIPRAND_RNG_QUASI_SCRAMBLED_SOBOL32 = 502
     enumerator :: HIPRAND_RNG_QUASI_SOBOL64 = 503
     enumerator :: HIPRAND_RNG_QUASI_SCRAMBLED_SOBOL64 = 504
+  end enum
+
+  enum, bind(c)
+    enumerator :: HIPRAND_DIRECTION_VECTORS_32_JOEKUO6 = 101
+    enumerator :: HIPRAND_SCRAMBLED_DIRECTION_VECTORS_32_JOEKUO6 = 102
+    enumerator :: HIPRAND_DIRECTION_VECTORS_64_JOEKUO6 = 103
+    enumerator :: HIPRAND_SCRAMBLED_DIRECTION_VECTORS_64_JOEKUO6 = 104
   end enum
 
  

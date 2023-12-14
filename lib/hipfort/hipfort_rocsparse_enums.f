@@ -2,7 +2,7 @@
 ! ==============================================================================
 ! hipfort: FORTRAN Interfaces for GPU kernels
 ! ==============================================================================
-! Copyright (c) 2020-2022 Advanced Micro Devices, Inc. All rights reserved.
+! Copyright (c) 2021 Advanced Micro Devices, Inc. All rights reserved.
 ! [MITx11 License]
 ! 
 ! Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -57,6 +57,11 @@ module hipfort_rocsparse_enums
   end enum
 
   enum, bind(c)
+    enumerator :: rocsparse_storage_mode_sorted = 0
+    enumerator :: rocsparse_storage_mode_unsorted = 1
+  end enum
+
+  enum, bind(c)
     enumerator :: rocsparse_action_symbolic = 0
     enumerator :: rocsparse_action_numeric = 1
   end enum
@@ -90,6 +95,7 @@ module hipfort_rocsparse_enums
     enumerator :: rocsparse_layer_mode_none = 0
     enumerator :: rocsparse_layer_mode_log_trace = 1
     enumerator :: rocsparse_layer_mode_log_bench = 2
+    enumerator :: rocsparse_layer_mode_log_debug = 4
   end enum
 
   enum, bind(c)
@@ -105,6 +111,20 @@ module hipfort_rocsparse_enums
     enumerator :: rocsparse_status_zero_pivot = 9
     enumerator :: rocsparse_status_not_initialized = 10
     enumerator :: rocsparse_status_type_mismatch = 11
+    enumerator :: rocsparse_status_requires_sorted_storage = 12
+    enumerator :: rocsparse_status_thrown_exception = 13
+    enumerator :: rocsparse_status_continue = 14
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocsparse_data_status_success = 0
+    enumerator :: rocsparse_data_status_inf = 1
+    enumerator :: rocsparse_data_status_nan = 2
+    enumerator :: rocsparse_data_status_invalid_offset_ptr = 3
+    enumerator :: rocsparse_data_status_invalid_index = 4
+    enumerator :: rocsparse_data_status_duplicate_entry = 5
+    enumerator :: rocsparse_data_status_invalid_sorting = 6
+    enumerator :: rocsparse_data_status_invalid_fill = 7
   end enum
 
   enum, bind(c)
@@ -118,6 +138,10 @@ module hipfort_rocsparse_enums
     enumerator :: rocsparse_datatype_f64_r = 152
     enumerator :: rocsparse_datatype_f32_c = 154
     enumerator :: rocsparse_datatype_f64_c = 155
+    enumerator :: rocsparse_datatype_i8_r = 160
+    enumerator :: rocsparse_datatype_u8_r = 161
+    enumerator :: rocsparse_datatype_i32_r = 162
+    enumerator :: rocsparse_datatype_u32_r = 163
   end enum
 
   enum, bind(c)
@@ -127,6 +151,7 @@ module hipfort_rocsparse_enums
     enumerator :: rocsparse_format_csc = 3
     enumerator :: rocsparse_format_ell = 4
     enumerator :: rocsparse_format_bell = 5
+    enumerator :: rocsparse_format_bsr = 6
   end enum
 
   enum, bind(c)
@@ -138,6 +163,51 @@ module hipfort_rocsparse_enums
     enumerator :: rocsparse_spmat_fill_mode = 0
     enumerator :: rocsparse_spmat_diag_type = 1
     enumerator :: rocsparse_spmat_matrix_type = 2
+    enumerator :: rocsparse_spmat_storage_mode = 3
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocsparse_sparse_to_sparse_alg_default = 0
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocsparse_sparse_to_sparse_stage_analysis = 0
+    enumerator :: rocsparse_sparse_to_sparse_stage_compute = 1
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocsparse_itilu0_alg_default = 0
+    enumerator :: rocsparse_itilu0_alg_async_inplace = 1
+    enumerator :: rocsparse_itilu0_alg_async_split = 2
+    enumerator :: rocsparse_itilu0_alg_sync_split = 3
+    enumerator :: rocsparse_itilu0_alg_sync_split_fusion = 4
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocsparse_itilu0_option_verbose = 1
+    enumerator :: rocsparse_itilu0_option_stopping_criteria = 2
+    enumerator :: rocsparse_itilu0_option_compute_nrm_correction = 4
+    enumerator :: rocsparse_itilu0_option_compute_nrm_residual = 8
+    enumerator :: rocsparse_itilu0_option_convergence_history = 16
+    enumerator :: rocsparse_itilu0_option_coo_format = 32
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocsparse_gtsv_interleaved_alg_default = 0
+    enumerator :: rocsparse_gtsv_interleaved_alg_thomas = 1
+    enumerator :: rocsparse_gtsv_interleaved_alg_lu = 2
+    enumerator :: rocsparse_gtsv_interleaved_alg_qr = 3
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocsparse_check_spmat_stage_buffer_size = 0
+    enumerator :: rocsparse_check_spmat_stage_compute = 1
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocsparse_spmv_stage_buffer_size = 1
+    enumerator :: rocsparse_spmv_stage_preprocess = 2
+    enumerator :: rocsparse_spmv_stage_compute = 3
   end enum
 
   enum, bind(c)
@@ -146,6 +216,9 @@ module hipfort_rocsparse_enums
     enumerator :: rocsparse_spmv_alg_csr_adaptive = 2
     enumerator :: rocsparse_spmv_alg_csr_stream = 3
     enumerator :: rocsparse_spmv_alg_ell = 4
+    enumerator :: rocsparse_spmv_alg_coo_atomic = 5
+    enumerator :: rocsparse_spmv_alg_bsr = 6
+    enumerator :: rocsparse_spmv_alg_csr_lrb = 7
   end enum
 
   enum, bind(c)
@@ -153,10 +226,19 @@ module hipfort_rocsparse_enums
   end enum
 
   enum, bind(c)
-    enumerator :: rocsparse_spsv_stage_auto = 0
     enumerator :: rocsparse_spsv_stage_buffer_size = 1
     enumerator :: rocsparse_spsv_stage_preprocess = 2
     enumerator :: rocsparse_spsv_stage_compute = 3
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocsparse_spitsv_alg_default = 0
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocsparse_spitsv_stage_buffer_size = 1
+    enumerator :: rocsparse_spitsv_stage_preprocess = 2
+    enumerator :: rocsparse_spitsv_stage_compute = 3
   end enum
 
   enum, bind(c)
@@ -164,7 +246,6 @@ module hipfort_rocsparse_enums
   end enum
 
   enum, bind(c)
-    enumerator :: rocsparse_spsm_stage_auto = 0
     enumerator :: rocsparse_spsm_stage_buffer_size = 1
     enumerator :: rocsparse_spsm_stage_preprocess = 2
     enumerator :: rocsparse_spsm_stage_compute = 3
@@ -179,10 +260,12 @@ module hipfort_rocsparse_enums
     enumerator :: rocsparse_spmm_alg_csr_merge
     enumerator :: rocsparse_spmm_alg_coo_segmented_atomic
     enumerator :: rocsparse_spmm_alg_bell
+    enumerator :: rocsparse_spmm_alg_bsr
   end enum
 
   enum, bind(c)
     enumerator :: rocsparse_sddmm_alg_default = 0
+    enumerator :: rocsparse_sddmm_alg_dense = 1
   end enum
 
   enum, bind(c)
@@ -194,21 +277,26 @@ module hipfort_rocsparse_enums
   end enum
 
   enum, bind(c)
-    enumerator :: rocsparse_spmm_stage_auto = 0
     enumerator :: rocsparse_spmm_stage_buffer_size = 1
     enumerator :: rocsparse_spmm_stage_preprocess = 2
     enumerator :: rocsparse_spmm_stage_compute = 3
   end enum
 
   enum, bind(c)
-    enumerator :: rocsparse_spgemm_stage_auto = 0
     enumerator :: rocsparse_spgemm_stage_buffer_size = 1
     enumerator :: rocsparse_spgemm_stage_nnz = 2
     enumerator :: rocsparse_spgemm_stage_compute = 3
+    enumerator :: rocsparse_spgemm_stage_symbolic = 4
+    enumerator :: rocsparse_spgemm_stage_numeric = 5
   end enum
 
   enum, bind(c)
     enumerator :: rocsparse_spgemm_alg_default = 0
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocsparse_gpsv_interleaved_alg_default = 0
+    enumerator :: rocsparse_gpsv_interleaved_alg_qr = 1
   end enum
 
  

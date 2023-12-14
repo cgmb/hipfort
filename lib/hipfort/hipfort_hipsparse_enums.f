@@ -2,7 +2,7 @@
 ! ==============================================================================
 ! hipfort: FORTRAN Interfaces for GPU kernels
 ! ==============================================================================
-! Copyright (c) 2020-2022 Advanced Micro Devices, Inc. All rights reserved.
+! Copyright (c) 2021 Advanced Micro Devices, Inc. All rights reserved.
 ! [MITx11 License]
 ! 
 ! Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -103,15 +103,16 @@ module hipfort_hipsparse_enums
   end enum
 
   enum, bind(c)
-    enumerator :: HIPSPARSE_FORMAT_CSR = 1
-    enumerator :: HIPSPARSE_FORMAT_COO = 3
-    enumerator :: HIPSPARSE_FORMAT_COO_AOS = 4
-    enumerator :: HIPSPARSE_FORMAT_BLOCKED_ELL = 5
+    enumerator :: HIPSPARSE_CSR2CSC_ALG1 = 1
+    enumerator :: HIPSPARSE_CSR2CSC_ALG2 = 2
   end enum
 
   enum, bind(c)
-    enumerator :: HIPSPARSE_ORDER_ROW = 0
-    enumerator :: HIPSPARSE_ORDER_COLUMN = 1
+    enumerator :: HIPSPARSE_FORMAT_CSR = 1
+    enumerator :: HIPSPARSE_FORMAT_CSC = 2
+    enumerator :: HIPSPARSE_FORMAT_COO = 3
+    enumerator :: HIPSPARSE_FORMAT_COO_AOS = 4
+    enumerator :: HIPSPARSE_FORMAT_BLOCKED_ELL = 5
   end enum
 
   enum, bind(c)
@@ -125,11 +126,11 @@ module hipfort_hipsparse_enums
     enumerator :: HIPSPARSE_COOMV_ALG = 1
     enumerator :: HIPSPARSE_CSRMV_ALG1 = 2
     enumerator :: HIPSPARSE_CSRMV_ALG2 = 3
-    enumerator :: HIPSPARSE_SPMV_ALG_DEFAULT = 4
-    enumerator :: HIPSPARSE_SPMV_COO_ALG1 = 5
-    enumerator :: HIPSPARSE_SPMV_COO_ALG2 = 6
-    enumerator :: HIPSPARSE_SPMV_CSR_ALG1 = 7
-    enumerator :: HIPSPARSE_SPMV_CSR_ALG2 = 8
+    enumerator :: HIPSPARSE_SPMV_ALG_DEFAULT = 0
+    enumerator :: HIPSPARSE_SPMV_COO_ALG1 = 1
+    enumerator :: HIPSPARSE_SPMV_CSR_ALG1 = 2
+    enumerator :: HIPSPARSE_SPMV_CSR_ALG2 = 3
+    enumerator :: HIPSPARSE_SPMV_COO_ALG2 = 4
   end enum
 
   enum, bind(c)
@@ -138,15 +139,15 @@ module hipfort_hipsparse_enums
     enumerator :: HIPSPARSE_COOMM_ALG2 = 2
     enumerator :: HIPSPARSE_COOMM_ALG3 = 3
     enumerator :: HIPSPARSE_CSRMM_ALG1 = 4
-    enumerator :: HIPSPARSE_SPMM_ALG_DEFAULT = 5
-    enumerator :: HIPSPARSE_SPMM_COO_ALG1 = 6
-    enumerator :: HIPSPARSE_SPMM_COO_ALG2 = 7
-    enumerator :: HIPSPARSE_SPMM_COO_ALG3 = 8
-    enumerator :: HIPSPARSE_SPMM_COO_ALG4 = 9
-    enumerator :: HIPSPARSE_SPMM_CSR_ALG1 = 10
-    enumerator :: HIPSPARSE_SPMM_CSR_ALG2 = 11
-    enumerator :: HIPSPARSE_SPMM_BLOCKED_ELL_ALG1 = 12
-    enumerator :: HIPSPARSE_SPMM_CSR_ALG3 = 13
+    enumerator :: HIPSPARSE_SPMM_ALG_DEFAULT = 0
+    enumerator :: HIPSPARSE_SPMM_COO_ALG1 = 1
+    enumerator :: HIPSPARSE_SPMM_COO_ALG2 = 2
+    enumerator :: HIPSPARSE_SPMM_COO_ALG3 = 3
+    enumerator :: HIPSPARSE_SPMM_COO_ALG4 = 5
+    enumerator :: HIPSPARSE_SPMM_CSR_ALG1 = 4
+    enumerator :: HIPSPARSE_SPMM_CSR_ALG2 = 6
+    enumerator :: HIPSPARSE_SPMM_CSR_ALG3 = 12
+    enumerator :: HIPSPARSE_SPMM_BLOCKED_ELL_ALG1 = 13
   end enum
 
   enum, bind(c)
@@ -176,6 +177,8 @@ module hipfort_hipsparse_enums
 
   enum, bind(c)
     enumerator :: HIPSPARSE_SPGEMM_DEFAULT = 0
+    enumerator :: HIPSPARSE_SPGEMM_CSR_ALG_DETERMINISTIC = 1
+    enumerator :: HIPSPARSE_SPGEMM_CSR_ALG_NONDETERMINISTIC = 2
   end enum
 
  

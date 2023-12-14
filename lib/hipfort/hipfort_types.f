@@ -1,12 +1,10 @@
 module hipfort_types
   use iso_c_binding
   implicit none
-
-  !> Derived type that can be mapped directly to a CUDA/HIP C++ dim3.  
+  
   type,bind(c) :: dim3
-     integer(c_int) :: x=1,y=1,z=1
+     integer(c_int) :: x,y,z 
   end type dim3
-
 
 #ifdef USE_CUDA_NAMES
   type,bind(c) :: hipDeviceProp_t  ! as of cuda 11.4
@@ -221,4 +219,5 @@ module hipfort_types
   
   integer, parameter :: hipCooperativeLaunchMultiDeviceNoPreSync =  1
   integer, parameter :: hipCooperativeLaunchMultiDeviceNoPostSync =  2
+
 end module hipfort_types

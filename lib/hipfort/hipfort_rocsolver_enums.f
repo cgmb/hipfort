@@ -2,7 +2,7 @@
 ! ==============================================================================
 ! hipfort: FORTRAN Interfaces for GPU kernels
 ! ==============================================================================
-! Copyright (c) 2020-2022 Advanced Micro Devices, Inc. All rights reserved.
+! Copyright (c) 2021 Advanced Micro Devices, Inc. All rights reserved.
 ! [MITx11 License]
 ! 
 ! Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -64,6 +64,33 @@ module hipfort_rocsolver_enums
     enumerator :: rocblas_eform_ax = 221
     enumerator :: rocblas_eform_abx = 222
     enumerator :: rocblas_eform_bax = 223
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocblas_erange_all = 231
+    enumerator :: rocblas_erange_value = 232
+    enumerator :: rocblas_erange_index = 233
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocblas_eorder_blocks = 241
+    enumerator :: rocblas_eorder_entire = 242
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocblas_esort_none = 251
+    enumerator :: rocblas_esort_ascending = 252
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocblas_srange_all = 261
+    enumerator :: rocblas_srange_value = 262
+    enumerator :: rocblas_srange_index = 263
+  end enum
+
+  enum, bind(c)
+    enumerator :: rocsolver_rfinfo_mode_lu = 271
+    enumerator :: rocsolver_rfinfo_mode_cholesky = 272
   end enum
 
  
