@@ -19,18 +19,12 @@ Install `gfortran`, `git`, `cmake`, and HIP, if not yet installed.
 Then build, install, and test hipfort from source with the commands below:
 
 ```shell
-git clone https://github.com/ROCmSoftwarePlatform/hipfort
-mkdir build ; cd build
-cmake -DHIPFORT_INSTALL_DIR=/tmp/hipfort ..
-make install
-export PATH=/tmp/hipfort/bin:$PATH
-cd ../test/f2003/vecadd
-hipfc -v hip_implementation.cpp main.f03
-./a.out
+git clone https://github.com/ROCm/hipfort.git
+cd hipfort
+cmake -S. -Bbuild -DHIPFORT_INSTALL_DIR=/tmp/hipfort -DBUILD_TESTING=ON
+make -C build
+make -C build check
 ```
-
-The above steps demonstrate the use of the `hipfc` utility. `hipfc` calls `hipcc` for non-Fortran files and then
-compiles the Fortran files and links to the object file created by `hipcc`.
 
 ## Fortran interfaces
 
@@ -122,10 +116,16 @@ You may further find it convenient to directly use the search function on
 
 ## hipfc wrapper compiler and Makefile.hipfort
 
-Aside from Fortran interfaces to the HIP and ROCm libraries, hipfort ships the `hipfc` wrapper compiler
-and a `Makefile.hipfort` that can be included into a project's build system. hipfc located in the `bin/` subdirectory and
-Makefile.hipfort in share/hipfort of the repository. While both can be configured via a number of environment variables,`
-hipfc` also understands a greater number of command line options that you can print to screen via `hipfc -h`.
+The hipfc wrapper compiler is deprecated and may be removed in a future release. Users are
+encouraged to call their Fortran or HIP compilers directly instead of relying on the hipfc wrapper.
+The hipfort project provides exported CMake targets that can be used for linking to the appropriate
+ROCm libraries.
+
+hipfort currently ships the `hipfc` wrapper compiler and a `Makefile.hipfort` that can be included
+into a project's build system. hipfc located in the `bin/` subdirectory and Makefile.hipfort in
+share/hipfort of the repository. While both can be configured via a number of environment variables,
+`hipfc` also understands a greater number of command line options that you can print to screen via
+`hipfc -h`.
 
 Among the environment variables, the most important are:
 

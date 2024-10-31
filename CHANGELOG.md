@@ -1,5 +1,14 @@
 # Change Log for hipfort
 
+## hipfort 0.6.0 for ROCm 6.4.0
+
+### Deprecations
+
+* The hipfc compiler wrapper has been deprecated and may be removed in
+  a future release. Users are encouraged to directly invoke their
+  Fortran or HIP compilers as appropriate for each source file.
+
+
 ## hipfort 0.5.0 for ROCm 6.3.0
 
 ### Added

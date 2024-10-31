@@ -28,8 +28,13 @@ PROGVERSION=X.Y-Z
 function usage(){
 /bin/cat 2>&1 <<"EOF" 
 
-   hipfc: Wrapper to call Fortran compiler with hipfort
+   hipfc: A deprecated wrapper to call Fortran compiler with hipfort
           This script also calls hipcc for non Fortran files.
+
+          Users of hipfc are encourged to migrate to a build system
+          such as CMake to link with the hipfort libraries, and to
+          directly invoke the appropriate compiler for Fortran or HIP
+          language source files.
 
    Usage:  hipfc [ options ] input-files
 
