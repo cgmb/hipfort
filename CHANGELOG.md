@@ -2,7 +2,7 @@
 
 ## hipfort 0.6.0 for ROCm 6.4.0
 
-### Deprecations
+### Upcoming changes
 
 * The hipfc compiler wrapper has been deprecated and may be removed in
   a future release. Users are encouraged to directly invoke their
