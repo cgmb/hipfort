@@ -122,7 +122,7 @@ The hipfort project provides exported CMake targets that can be used for linking
 ROCm libraries.
 
 hipfort currently ships the `hipfc` wrapper compiler and a `Makefile.hipfort` that can be included
-into a project's build system. hipfc located in the `bin/` subdirectory and Makefile.hipfort in
+in a project's build system. hipfc is located in the `bin/` subdirectory and Makefile.hipfort in
 share/hipfort of the repository. While both can be configured via a number of environment variables,
 `hipfc` also understands a greater number of command line options that you can print to the screen via
 `hipfc -h`.
