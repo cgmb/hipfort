@@ -4,8 +4,8 @@
 
 ### Upcoming changes
 
-* The hipfc compiler wrapper has been deprecated and may be removed in
-  a future release. Users are encouraged to directly invoke their
+* The hipfc compiler wrapper has been deprecated and will be removed
+  in a future release. Users are encouraged to directly invoke their
   Fortran or HIP compilers as appropriate for each source file.
 
 
