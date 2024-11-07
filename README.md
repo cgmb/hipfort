@@ -116,7 +116,7 @@ You may further find it convenient to directly use the search function on
 
 ## hipfc wrapper compiler and Makefile.hipfort
 
-The hipfc wrapper compiler is deprecated and may be removed in a future release. Users are
+The hipfc wrapper compiler is deprecated and will be removed in a future release. Users are
 encouraged to call their Fortran or HIP compilers directly instead of relying on the hipfc wrapper.
 The hipfort project provides exported CMake targets that can be used for linking to the appropriate
 ROCm libraries.
