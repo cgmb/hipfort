@@ -74,7 +74,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_set_properties
-    function roctracer_op_code_() bind(c, name="roctracer_set_properties")
+    function roctracer_set_properties_() bind(c, name="roctracer_set_properties")
       use iso_c_binding
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_set_properties_
@@ -84,7 +84,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_enable_op_callback
-    function roctracer_op_code_() bind(c, name="roctracer_enable_op_callback")
+    function roctracer_enable_op_callback_() bind(c, name="roctracer_enable_op_callback")
       use iso_c_binding
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_enable_op_callback_
@@ -96,7 +96,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_enable_domain_callback
-    function roctracer_op_code_() bind(c, name="roctracer_enable_domain_callback")
+    function roctracer_enable_domain_callback_() bind(c, name="roctracer_enable_domain_callback")
       use iso_c_binding
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_enable_domain_callback_
@@ -107,7 +107,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_disable_op_callback
-    function roctracer_op_code_() bind(c, name="roctracer_disable_op_callback")
+    function roctracer_disable_op_callback_() bind(c, name="roctracer_disable_op_callback")
       use iso_c_binding
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_disable_op_callback_
@@ -117,7 +117,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_disable_domain_callback
-    function roctracer_op_code_() bind(c, name="roctracer_disable_domain_callback")
+    function roctracer_disable_domain_callback_() bind(c, name="roctracer_disable_domain_callback")
       use iso_c_binding
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_disable_domain_callback_
