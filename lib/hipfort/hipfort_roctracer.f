@@ -30,7 +30,7 @@ module hipfort_roctracer
     function roctracer_version_major_() bind(c, name="roctracer_version_major")
       use iso_c_binding
       implicit none
-      integer(C_INT32_T) :: roctracer_version_major_
+      integer(c_int32_t) :: roctracer_version_major_
     end function
   end interface
 
@@ -38,7 +38,7 @@ module hipfort_roctracer
     function roctracer_version_minor_() bind(c, name="roctracer_version_minor")
       use iso_c_binding
       implicit none
-      integer(C_INT32_T) :: roctracer_version_minor_
+      integer(c_int32_t) :: roctracer_version_minor_
     end function
   end interface
 
@@ -55,9 +55,9 @@ module hipfort_roctracer
       use iso_c_binding
       implicit none
       type(c_ptr),value :: roctracer_op_string_
-      integer(C_INT32_T) :: domain
-      integer(C_INT32_T) :: op
-      integer(C_INT32_T) :: kind
+      integer(c_int32_t) :: domain
+      integer(c_int32_t) :: op
+      integer(c_int32_t) :: kind
     end function
   end interface
 
@@ -66,10 +66,10 @@ module hipfort_roctracer
       use iso_c_binding
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_op_code_
-      integer(C_INT32_T) :: domain
+      integer(c_int32_t) :: domain
       type(c_ptr),value :: string
       integer(c_ptr),value :: op
-      integer(C_INT32_T),value :: kind
+      integer(c_int32_t),value :: kind
     end function
   end interface
 
@@ -197,7 +197,7 @@ module hipfort_roctracer
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_enable_op_activity_expl_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
-      integer(C_INT32_T),value :: op
+      integer(c_int32_t),value :: op
       type(c_ptr),value :: pool
     end function
   end interface
@@ -209,7 +209,7 @@ module hipfort_roctracer
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_enable_op_activity_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
-      integer(C_INT32_T),value :: op
+      integer(c_int32_t),value :: op
     end function
   end interface
 
@@ -241,7 +241,7 @@ module hipfort_roctracer
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_disable_op_activity_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
-      integer(C_INT32_T),value :: op
+      integer(c_int32_t),value :: op
     end function
   end interface
 
@@ -252,7 +252,7 @@ module hipfort_roctracer
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_disable_domain_activity_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
-      integer(C_INT32_T),value :: op
+      integer(c_int32_t),value :: op
     end function
   end interface
 
@@ -281,7 +281,7 @@ module hipfort_roctracer
       use hipfort_hipblas_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_get_timestamp_
-      integer(C_INT64_T) :: timestamp
+      integer(c_int64_T) :: timestamp
     end function
   end interface
 
@@ -305,7 +305,7 @@ module hipfort_roctracer
       use hipfort_hipblas_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_activity_push_external_correlation_id_
-      integer(C_INT64_T),value :: id
+      integer(c_int64_T),value :: id
     end function
   end interface
 
@@ -324,9 +324,9 @@ module hipfort_roctracer
       use iso_c_binding
       use hipfort_hipblas_enums
       implicit none
-      integer(C_INT) :: roctracer_plugin_initialize_
-      integer(C_INT32_T) :: roctracer_major_version
-      integer(C_INT32_T) :: roctracer_minor_version
+      integer(c_int) :: roctracer_plugin_initialize_
+      integer(c_int32_t) :: roctracer_major_version
+      integer(c_int32_t) :: roctracer_minor_version
     end function
   end interface
 
@@ -334,7 +334,7 @@ module hipfort_roctracer
     subroutine roctracer_plugin_finalize_() bind(c, name="roctracer_plugin_finalize")
       use iso_c_binding
       implicit none
-      integer(C_INT32_T) :: roctracer_plugin_finalize_
+      integer(c_int32_t) :: roctracer_plugin_finalize_
     end subroutine
   end interface
 
@@ -342,7 +342,7 @@ module hipfort_roctracer
     function roctracer_plugin_write_callback_record_() bind(c, name="roctracer_plugin_write_callback_record")
       use iso_c_binding
       implicit none
-      integer(C_INT) :: roctracer_plugin_write_callback_record_
+      integer(c_int) :: roctracer_plugin_write_callback_record_
       integer(c_ptr) :: record
       integer(c_ptr) :: callback_data
     end function
@@ -352,7 +352,7 @@ module hipfort_roctracer
     function roctracer_plugin_write_activity_records_() bind(c, name="roctracer_plugin_write_activity_records")
       use iso_c_binding
       implicit none
-      integer(C_INT) :: roctracer_plugin_write_activity_records_
+      integer(c_int) :: roctracer_plugin_write_activity_records_
       integer(c_ptr) :: begin
       integer(c_ptr) :: end
     end function
