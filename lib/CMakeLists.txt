@@ -131,6 +131,13 @@ if(HIP_PLATFORM STREQUAL "amd")
     message(STATUS "Skipping hipfort::roctx target export")
   endif()
 
+  find_library(roctracer_LIBRARY roctracer PATHS ${ROCM_PATH} /opt/rocm)
+  if(roctracer_LIBRARY)
+    hipfort_add_component(roctracer ${roctracer_LIBRARY})
+  else()
+    message(STATUS "Skipping hipfort::hipsparse target export")
+  endif()
+
   find_package(rocblas PATHS ${ROCM_PATH} /opt/rocm)
   if(rocblas_FOUND)
     hipfort_add_component(rocblas roc::rocblas)
