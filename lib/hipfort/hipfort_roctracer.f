@@ -67,7 +67,7 @@ module hipfort_roctracer
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_op_code_
       integer(C_INT32_T) :: domain
-      type(c_ptr),value :: str
+      type(c_ptr),value :: string
       integer(c_ptr),value :: op
       integer(C_INT32_T),value :: kind
     end function
