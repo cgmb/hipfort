@@ -64,6 +64,7 @@ module hipfort_roctracer
   interface roctracer_op_code
     function roctracer_op_code_() bind(c, name="roctracer_op_code")
       use iso_c_binding
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_op_code_
       integer(c_int32_t) :: domain
@@ -76,6 +77,7 @@ module hipfort_roctracer
   interface roctracer_set_properties
     function roctracer_set_properties_() bind(c, name="roctracer_set_properties")
       use iso_c_binding
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_set_properties_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
@@ -86,7 +88,7 @@ module hipfort_roctracer
   interface roctracer_enable_op_callback
     function roctracer_enable_op_callback_() bind(c, name="roctracer_enable_op_callback")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_enable_op_callback_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
@@ -99,7 +101,7 @@ module hipfort_roctracer
   interface roctracer_enable_domain_callback
     function roctracer_enable_domain_callback_() bind(c, name="roctracer_enable_domain_callback")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_enable_domain_callback_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
@@ -111,7 +113,7 @@ module hipfort_roctracer
   interface roctracer_disable_op_callback
     function roctracer_disable_op_callback_() bind(c, name="roctracer_disable_op_callback")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_disable_op_callback_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
@@ -122,7 +124,7 @@ module hipfort_roctracer
   interface roctracer_disable_domain_callback
     function roctracer_disable_domain_callback_() bind(c, name="roctracer_disable_domain_callback")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_disable_domain_callback_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
@@ -134,7 +136,7 @@ module hipfort_roctracer
   interface roctracer_next_record
     function roctracer_next_record_() bind(c, name="roctracer_next_record")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_next_record_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
@@ -146,7 +148,7 @@ module hipfort_roctracer
   interface roctracer_open_pool_expl
     function roctracer_open_pool_expl_() bind(c, name="roctracer_open_pool_expl")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_open_pool_expl_
       type(c_ptr),value :: properties
@@ -157,7 +159,7 @@ module hipfort_roctracer
   interface roctracer_close_pool_expl
     function roctracer_close_pool_expl_() bind(c, name="roctracer_close_pool_expl")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_close_pool_expl_
       type(c_ptr),value :: properties
@@ -167,7 +169,7 @@ module hipfort_roctracer
   interface roctracer_close_pool
     function roctracer_close_pool_() bind(c, name="roctracer_close_pool")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_close_pool_
     end function
@@ -193,7 +195,7 @@ module hipfort_roctracer
   interface roctracer_enable_op_activity_expl
     function roctracer_enable_op_activity_expl_() bind(c, name="roctracer_enable_op_activity_expl")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_enable_op_activity_expl_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
@@ -205,7 +207,7 @@ module hipfort_roctracer
   interface roctracer_enable_op_activity
     function roctracer_enable_op_activity_() bind(c, name="roctracer_enable_op_activity")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_enable_op_activity_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
@@ -216,7 +218,7 @@ module hipfort_roctracer
   interface roctracer_enable_domain_activity_expl
     function roctracer_enable_domain_activity_expl_() bind(c, name="roctracer_enable_domain_activity_expl")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_enable_domain_activity_expl_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
@@ -227,7 +229,7 @@ module hipfort_roctracer
   interface roctracer_enable_domain_activity
     function roctracer_enable_domain_activity_() bind(c, name="roctracer_enable_domain_activity")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_enable_domain_activity_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
@@ -237,7 +239,7 @@ module hipfort_roctracer
   interface roctracer_disable_op_activity
     function roctracer_disable_op_activity_() bind(c, name="roctracer_disable_op_activity")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_disable_op_activity_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
@@ -248,7 +250,7 @@ module hipfort_roctracer
   interface roctracer_disable_domain_activity
     function roctracer_disable_domain_activity_() bind(c, name="roctracer_disable_domain_activity")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_disable_domain_activity_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
@@ -259,7 +261,7 @@ module hipfort_roctracer
   interface roctracer_flush_activity_expl
     function roctracer_flush_activity_expl_() bind(c, name="roctracer_flush_activity_expl")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_flush_activity_expl_
       type(c_ptr),value :: pool
@@ -269,7 +271,7 @@ module hipfort_roctracer
   interface roctracer_flush_activity
     function roctracer_flush_activity_() bind(c, name="roctracer_flush_activity")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_flush_activity_
     end function
@@ -278,7 +280,7 @@ module hipfort_roctracer
   interface roctracer_get_timestamp
     function roctracer_get_timestamp_() bind(c, name="roctracer_get_timestamp")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_get_timestamp_
       integer(c_int64_T) :: timestamp
@@ -302,7 +304,7 @@ module hipfort_roctracer
   interface roctracer_activity_push_external_correlation_id
     function roctracer_activity_push_external_correlation_id_() bind(c, name="roctracer_activity_push_external_correlation_id")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_activity_push_external_correlation_id_
       integer(c_int64_T),value :: id
@@ -312,7 +314,7 @@ module hipfort_roctracer
   interface roctracer_activity_pop_external_correlation_id
     function roctracer_activity_pop_external_correlation_id_() bind(c, name="roctracer_activity_pop_external_correlation_id")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_activity_pop_external_correlation_id_
       type(c_ptr),value :: last_id
@@ -322,7 +324,7 @@ module hipfort_roctracer
   interface roctracer_plugin_initialize
     function roctracer_plugin_initialize_() bind(c, name="roctracer_plugin_initialize")
       use iso_c_binding
-      use hipfort_hipblas_enums
+      use hipfort_roctracer_enums
       implicit none
       integer(c_int) :: roctracer_plugin_initialize_
       integer(c_int32_t) :: roctracer_major_version
