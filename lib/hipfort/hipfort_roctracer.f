@@ -46,36 +46,36 @@ module hipfort_roctracer
     function roctracer_error_string_() bind(c, name="roctracer_error_string")
       use iso_c_binding
       implicit none
-      type(c_ptr),value :: roctracer_error_string_
+      type(c_ptr) :: roctracer_error_string_
     end function
   end interface
 
   interface roctracer_op_string
-    function roctracer_op_string_() bind(c, name="roctracer_op_string")
+    function roctracer_op_string_(domain, op, kind_) bind(c, name="roctracer_op_string")
       use iso_c_binding
       implicit none
-      type(c_ptr),value :: roctracer_op_string_
+      type(c_ptr) :: roctracer_op_string_
       integer(c_int32_t) :: domain
       integer(c_int32_t) :: op
-      integer(c_int32_t) :: kind
+      integer(c_int32_t) :: kind_
     end function
   end interface
 
   interface roctracer_op_code
-    function roctracer_op_code_() bind(c, name="roctracer_op_code")
+    function roctracer_op_code_(domain, str, op, kind_) bind(c, name="roctracer_op_code")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_op_code_
       integer(c_int32_t) :: domain
-      type(c_ptr),value :: string
-      type(c_ptr),value :: op
-      integer(c_int32_t),value :: kind
+      character(kind=c_char) :: str(*)
+      character(kind=c_char) :: op(*)
+      integer(c_int32_t) :: kind_
     end function
   end interface
 
   interface roctracer_set_properties
-    function roctracer_set_properties_() bind(c, name="roctracer_set_properties")
+    function roctracer_set_properties_(domain, properties) bind(c, name="roctracer_set_properties")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
@@ -86,7 +86,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_enable_op_callback
-    function roctracer_enable_op_callback_() bind(c, name="roctracer_enable_op_callback")
+    function roctracer_enable_op_callback_(domain, op, callback, arg) bind(c, name="roctracer_enable_op_callback")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
@@ -99,7 +99,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_enable_domain_callback
-    function roctracer_enable_domain_callback_() bind(c, name="roctracer_enable_domain_callback")
+    function roctracer_enable_domain_callback_(domain, callback, arg) bind(c, name="roctracer_enable_domain_callback")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
@@ -111,7 +111,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_disable_op_callback
-    function roctracer_disable_op_callback_() bind(c, name="roctracer_disable_op_callback")
+    function roctracer_disable_op_callback_(domain, op) bind(c, name="roctracer_disable_op_callback")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
@@ -122,7 +122,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_disable_domain_callback
-    function roctracer_disable_domain_callback_() bind(c, name="roctracer_disable_domain_callback")
+    function roctracer_disable_domain_callback_(domain, callback, arg) bind(c, name="roctracer_disable_domain_callback")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
@@ -134,7 +134,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_next_record
-    function roctracer_next_record_() bind(c, name="roctracer_next_record")
+    function roctracer_next_record_(domain, record, next) bind(c, name="roctracer_next_record")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
@@ -146,7 +146,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_open_pool_expl
-    function roctracer_open_pool_expl_() bind(c, name="roctracer_open_pool_expl")
+    function roctracer_open_pool_expl_(properties, pool) bind(c, name="roctracer_open_pool_expl")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
@@ -157,7 +157,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_close_pool_expl
-    function roctracer_close_pool_expl_() bind(c, name="roctracer_close_pool_expl")
+    function roctracer_close_pool_expl_(properties) bind(c, name="roctracer_close_pool_expl")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
@@ -176,10 +176,10 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_default_pool_expl
-    function roctracer_default_pool_expl_() bind(c, name="roctracer_default_pool_expl")
+    function roctracer_default_pool_expl_(pool) bind(c, name="roctracer_default_pool_expl")
       use iso_c_binding
       implicit none
-      type(c_ptr),value :: roctracer_default_pool_expl_
+      type(c_ptr) :: roctracer_default_pool_expl_
       type(c_ptr),value :: pool
     end function
   end interface
@@ -188,12 +188,12 @@ module hipfort_roctracer
     function roctracer_default_pool_() bind(c, name="roctracer_default_pool")
       use iso_c_binding
       implicit none
-      type(c_ptr),value :: roctracer_default_pool_
+      type(c_ptr) :: roctracer_default_pool_
     end function
   end interface
 
   interface roctracer_enable_op_activity_expl
-    function roctracer_enable_op_activity_expl_() bind(c, name="roctracer_enable_op_activity_expl")
+    function roctracer_enable_op_activity_expl_(domain, op, pool) bind(c, name="roctracer_enable_op_activity_expl")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
@@ -205,7 +205,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_enable_op_activity
-    function roctracer_enable_op_activity_() bind(c, name="roctracer_enable_op_activity")
+    function roctracer_enable_op_activity_(domain, op) bind(c, name="roctracer_enable_op_activity")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
@@ -216,7 +216,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_enable_domain_activity_expl
-    function roctracer_enable_domain_activity_expl_() bind(c, name="roctracer_enable_domain_activity_expl")
+    function roctracer_enable_domain_activity_expl_(domain, pool) bind(c, name="roctracer_enable_domain_activity_expl")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
@@ -227,7 +227,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_enable_domain_activity
-    function roctracer_enable_domain_activity_() bind(c, name="roctracer_enable_domain_activity")
+    function roctracer_enable_domain_activity_(domain) bind(c, name="roctracer_enable_domain_activity")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
@@ -237,7 +237,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_disable_op_activity
-    function roctracer_disable_op_activity_() bind(c, name="roctracer_disable_op_activity")
+    function roctracer_disable_op_activity_(domain, op) bind(c, name="roctracer_disable_op_activity")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
@@ -248,7 +248,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_disable_domain_activity
-    function roctracer_disable_domain_activity_() bind(c, name="roctracer_disable_domain_activity")
+    function roctracer_disable_domain_activity_(domain, op) bind(c, name="roctracer_disable_domain_activity")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
@@ -259,7 +259,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_flush_activity_expl
-    function roctracer_flush_activity_expl_() bind(c, name="roctracer_flush_activity_expl")
+    function roctracer_flush_activity_expl_(pool) bind(c, name="roctracer_flush_activity_expl")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
@@ -278,12 +278,12 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_get_timestamp
-    function roctracer_get_timestamp_() bind(c, name="roctracer_get_timestamp")
+    function roctracer_get_timestamp_(timestamp) bind(c, name="roctracer_get_timestamp")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_get_timestamp_
-      integer(c_int64_T) :: timestamp
+      integer(c_int64_t) :: timestamp
     end function
   end interface
 
@@ -302,17 +302,17 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_activity_push_external_correlation_id
-    function roctracer_activity_push_external_correlation_id_() bind(c, name="roctracer_activity_push_external_correlation_id")
+    function roctracer_activity_push_external_correlation_id_(id) bind(c, name="roctracer_activity_push_external_correlation_id")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_activity_push_external_correlation_id_
-      integer(c_int64_T),value :: id
+      integer(c_int64_t),value :: id
     end function
   end interface
 
   interface roctracer_activity_pop_external_correlation_id
-    function roctracer_activity_pop_external_correlation_id_() bind(c, name="roctracer_activity_pop_external_correlation_id")
+    function roctracer_activity_pop_external_correlation_id_(last_id) bind(c, name="roctracer_activity_pop_external_correlation_id")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
@@ -322,7 +322,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_plugin_initialize
-    function roctracer_plugin_initialize_() bind(c, name="roctracer_plugin_initialize")
+    function roctracer_plugin_initialize_(roctracer_major_version, roctracer_minor_version) bind(c, name="roctracer_plugin_initialize")
       use iso_c_binding
       use hipfort_roctracer_enums
       implicit none
@@ -336,12 +336,11 @@ module hipfort_roctracer
     subroutine roctracer_plugin_finalize_() bind(c, name="roctracer_plugin_finalize")
       use iso_c_binding
       implicit none
-      integer(c_int32_t) :: roctracer_plugin_finalize_
     end subroutine
   end interface
 
   interface roctracer_plugin_write_callback_record
-    function roctracer_plugin_write_callback_record_() bind(c, name="roctracer_plugin_write_callback_record")
+    function roctracer_plugin_write_callback_record_(record, callback_data) bind(c, name="roctracer_plugin_write_callback_record")
       use iso_c_binding
       implicit none
       integer(c_int) :: roctracer_plugin_write_callback_record_
@@ -351,7 +350,7 @@ module hipfort_roctracer
   end interface
 
   interface roctracer_plugin_write_activity_records
-    function roctracer_plugin_write_activity_records_() bind(c, name="roctracer_plugin_write_activity_records")
+    function roctracer_plugin_write_activity_records_(begin, end) bind(c, name="roctracer_plugin_write_activity_records")
       use iso_c_binding
       implicit none
       integer(c_int) :: roctracer_plugin_write_activity_records_
