@@ -69,7 +69,7 @@ module hipfort_roctracer
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_op_code_
       integer(c_int32_t) :: domain
       type(c_ptr),value :: string
-      integer(c_ptr),value :: op
+      type(c_ptr),value :: op
       integer(c_int32_t),value :: kind
     end function
   end interface
@@ -92,7 +92,7 @@ module hipfort_roctracer
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_enable_op_callback_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
-      integer(c_ptr),value :: op
+      type(c_ptr),value :: op
       type(c_funptr),value :: callback
       type(c_ptr),value :: arg
     end function
@@ -117,7 +117,7 @@ module hipfort_roctracer
       implicit none
       integer(kind(ROCTRACER_STATUS_SUCCESS)) :: roctracer_disable_op_callback_
       integer(kind(ACTIVITY_DOMAIN_HSA_API)) :: domain
-      integer(c_ptr),value :: op
+      type(c_ptr),value :: op
     end function
   end interface
 
@@ -345,8 +345,8 @@ module hipfort_roctracer
       use iso_c_binding
       implicit none
       integer(c_int) :: roctracer_plugin_write_callback_record_
-      integer(c_ptr) :: record
-      integer(c_ptr) :: callback_data
+      type(c_ptr) :: record
+      type(c_ptr) :: callback_data
     end function
   end interface
 
@@ -355,8 +355,8 @@ module hipfort_roctracer
       use iso_c_binding
       implicit none
       integer(c_int) :: roctracer_plugin_write_activity_records_
-      integer(c_ptr) :: begin
-      integer(c_ptr) :: end
+      type(c_ptr) :: begin
+      type(c_ptr) :: end
     end function
   end interface
 
